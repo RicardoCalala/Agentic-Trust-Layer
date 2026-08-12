@@ -132,7 +132,7 @@ export default function Home() {
           <div className="tool-detail"><div className="console-title">Gateway evaluation</div><p className="tool-name">{tool.name}</p><div className="gateway-route"><span>Agent</span><b>→</b><span className="gateway">Trust gateway</span><b>→</b><span>MCP tool</span></div><div className="tool-policy"><p>POLICY OUTCOME</p><strong className={tool.access.toLowerCase()}>{tool.access === "Review" ? "Human review required" : tool.access === "Blocked" ? "Denied" : tool.access === "Automatic" ? "Auto-approved, low risk" : "Allowed"}</strong><small>{tool.access === "Automatic" ? "This automatic step is reversible and administrative only. It cannot change money, rights, enforcement status, or access to sensitive records." : "The gateway evaluates identity, authorized purpose, data classification, and action scope before forwarding a call."}</small></div><button className="primary" onClick={runTool}>Run simulated MCP call <span>→</span></button><div className="tool-result"><p>SIMULATED RESULT</p><span>{toolResult}</span></div></div>
         </div>
       </section>
-      <footer>Agentic Trust Layer · Educational concept · All content in this demo is fictional.</footer>
+      <footer><strong>Created by Ricardo Calala</strong><span>·</span><span>Built with ChatGPT Codex</span><span>·</span><span>Agentic Trust Layer · Educational concept · All content in this demo is fictional.</span></footer>
     </main>
   );
 }

@@ -6,6 +6,8 @@
 
 [Launch Trust Lab](https://agentic-trust-lab.ricardocalala.chatgpt.site) — a public, fictional demonstration of the Agentic Trust Layer, including governed agent actions, MCP tool controls, evidence trails, and an opt-in 3D Operations Center.
 
+Created by Ricardo Calala with ChatGPT Codex.
+
 An enterprise agent-forensics and governance foundation. It helps organizations decide what an agent may access, which actions need human review, and how to reconstruct verifiable evidence of every decision during an investigation.
 
 This repository is a **portfolio concept and proof of concept**, intended to show how an organization could integrate agent governance into its existing security and compliance stack. It is a layer a company can adopt around its own agents and systems—not a replacement for its existing identity, security, or compliance frameworks. It is not represented as a production-ready security service.
