@@ -12,6 +12,14 @@ const mcpTools = [
   { name: "records.export", category: "Records", access: "Blocked", detail: "Bulk export of fictional records", output: "Request blocked: bulk export is outside the public demo agent's authority." }
 ];
 
+const operationZones = {
+  signal: { title: "Area signal", text: "A fictional aggregate anomaly enters the system. It is a lead for review, not a claim about a person or place.", tag: "Aggregate only" },
+  evidence: { title: "Evidence desk", text: "Approved synthetic sources are checked for provenance, coverage, and contradictions before the system makes a recommendation.", tag: "Source verified" },
+  policy: { title: "Trust gateway", text: "The policy engine evaluates the proposed MCP tool call against identity, purpose, scope, and data classification.", tag: "Policy evaluated" },
+  review: { title: "Human checkpoint", text: "Sensitive, financial, or enforcement-related actions stop here for an accountable reviewer.", tag: "Human authority" },
+  record: { title: "Forensic record", text: "Every signal, tool request, policy outcome, and human decision is added to an integrity-linked timeline.", tag: "Audit intact" }
+};
+
 const scenarios = {
   knowledge: {
     title: "Read approved guidance",
@@ -43,6 +51,8 @@ export default function Home() {
   const [tool, setTool] = useState(mcpTools[0]);
   const [toolResult, setToolResult] = useState("Select a fictional MCP tool to see how the gateway governs access.");
   const [assessment, setAssessment] = useState(false);
+  const [zone, setZone] = useState<keyof typeof operationZones>("signal");
+  const [operationsOpen, setOperationsOpen] = useState(false);
   const scenario = scenarios[selected];
   const events = useMemo(() => [
     "Case opened with fictional, aggregate evidence",
@@ -84,6 +94,8 @@ export default function Home() {
       </section>
 
       {assessment && <section className="assessment-wrap"><div className="assessment-card"><div><p className="eyebrow">SIMULATED AI ASSESSMENT</p><h2>Pattern warrants review, not a conclusion.</h2><p>The model found a fictional anomaly across three aggregate, approved indicators. It cannot identify a person, infer guilt, or access additional records without a human decision and lawful scope.</p></div><div className="assessment-evidence"><p>EVIDENCE REVIEWED</p><span>Aggregate reporting trend</span><span>Fictional licensing variance</span><span>Casework volume pattern</span><p className="confidence">Confidence: limited · Uncertainty: material</p></div></div></section>}
+
+      <section className="operations-section"><div className="operations-copy"><p className="eyebrow">3D OPERATIONS CENTER / FICTIONAL SIMULATION</p><h2>Walk through the trust decision.</h2><p>Select a station in the fictional operations center to follow one simulated signal from initial detection to accountable record.</p>{!operationsOpen && <button className="launch-operations" onClick={() => setOperationsOpen(true)}>Launch 3D Operations Center <span>→</span></button>}</div>{operationsOpen && <div className="operations-layout"><div className="scene" aria-label="Interactive 3D operations center"><div className="scene-floor" /><div className="scene-grid" />{Object.entries(operationZones).map(([key, item]) => <button key={key} onClick={() => setZone(key as keyof typeof operationZones)} className={`station ${key} ${zone === key ? "active" : ""}`}><span className="station-icon">{key === "signal" ? "⌁" : key === "evidence" ? "◫" : key === "policy" ? "⌘" : key === "review" ? "◉" : "✓"}</span><strong>{item.title}</strong></button>)}<div className="connection line-one" /><div className="connection line-two" /><div className="connection line-three" /><div className="connection line-four" /></div><aside className="zone-card"><p className="eyebrow">SELECTED STATION</p><span className="zone-tag">{operationZones[zone].tag}</span><h3>{operationZones[zone].title}</h3><p>{operationZones[zone].text}</p><div className="zone-flow"><span>Signal</span><b>→</b><span>Policy</span><b>→</b><span>Record</span></div><small>Fictional data only · Click another station to continue the walkthrough.</small></aside></div>}</section>
 
       <section className="lab-grid" aria-label="Interactive trust lab">
         <article className="panel request-panel">
