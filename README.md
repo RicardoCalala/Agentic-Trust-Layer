@@ -6,7 +6,9 @@
 
 [Launch Trust Lab](https://agentic-trust-lab.ricardocalala.chatgpt.site) — a public, fictional demonstration of the Agentic Trust Layer, including governed agent actions, MCP tool controls, evidence trails, and an opt-in 3D Operations Center.
 
-Created by Ricardo Calala with ChatGPT Codex. An enterprise agent-forensics and governance foundation for Human Made Money, a private agentic project (Private repo) by Ricardo Calala. This is a portfolio concept and proof of concept. A brief explanation, non-proprietary, non-production architecture version.
+Created by Ricardo Calala with ChatGPT Codex. 
+
+An enterprise agent-forensics and governance foundation for Human Made Money, a private agentic project (Private repo) by Ricardo Calala. This is a portfolio concept and proof of concept. A brief explanation, non-proprietary, non-production architecture version.
 
 An enterprise agent-forensics and governance foundation. It helps organizations decide what an agent may access, which actions need human review, and how to reconstruct verifiable evidence of every decision during an investigation.
 
