@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type Decision = "Ready" | "Allowed" | "Review required" | "Denied";
 
@@ -28,6 +28,21 @@ const operationZones = {
   review: { title: "Human checkpoint", text: "Sensitive, financial, or enforcement-related actions stop here for an accountable reviewer.", tag: "Human authority" },
   record: { title: "Forensic record", text: "Every signal, tool request, policy outcome, and human decision is added to an integrity-linked timeline.", tag: "Audit intact" }
 };
+
+const areaSignals = [
+  { title: "Review warranted", summary: "A fictional combination of aggregate indicators merits a qualified human review. It is not an accusation or a finding of wrongdoing.", detail: "A fictional pattern across three approved, aggregate indicators needs context before any next step.", indicators: ["Aggregate reporting trend", "Fictional licensing variance", "Casework volume pattern"], confidence: "Confidence: limited · Uncertainty: material" },
+  { title: "Signal elevated", summary: "A fictional aggregate change is above the local reference range. The system recommends scope and source checks, not action against a person.", detail: "The fictional simulation found an unusual change in the approved area-level inputs and asks a reviewer to validate source coverage.", indicators: ["Synthetic reporting shift", "Fictional service-volume change", "Approved trend comparison"], confidence: "Confidence: moderate · Uncertainty: retained" },
+  { title: "Monitor only", summary: "A fictional aggregate variation remains inside a monitoring band. It is retained as context, with no recommendation for further records.", detail: "The fictional signal is logged as low-priority context and remains challengeable in the evidence record.", indicators: ["Aggregate baseline", "Synthetic seasonal pattern", "Fictional coverage check"], confidence: "Confidence: limited · No action recommended" }
+];
+
+const riskStages = [
+  { title: "Aggregate intake", text: "Fictional aggregate indicators enter with clear source ownership and permitted-use limits." },
+  { title: "Pattern comparison", text: "The system compares fictional trends and presents uncertainty; it does not identify a person or assert wrongdoing." },
+  { title: "Evidence verification", text: "Approved synthetic sources are checked for provenance, coverage, and conflicts." },
+  { title: "Authority gate", text: "The request is limited by simulated jurisdiction, purpose, classification, and role authority." },
+  { title: "Investigator review", text: "A qualified human decides whether a lawful, proportionate next step is warranted." },
+  { title: "Forensic record", text: "The complete fictional workflow is stored in a tamper-evident investigation timeline." }
+];
 
 const scenarios = {
   knowledge: {
@@ -60,18 +75,42 @@ export default function Home() {
   const [tool, setTool] = useState(mcpTools[0]);
   const [toolResult, setToolResult] = useState("Select a fictional MCP tool to see how the gateway governs access.");
   const [assessment, setAssessment] = useState(false);
+  const [signalIndex, setSignalIndex] = useState(0);
   const [zone, setZone] = useState<keyof typeof operationZones>("signal");
   const [operationsOpen, setOperationsOpen] = useState(false);
   const [riskOpen, setRiskOpen] = useState(false);
   const [riskStage, setRiskStage] = useState(0);
+  const [riskSeed, setRiskSeed] = useState(32);
   const [gatewaySeed, setGatewaySeed] = useState(1);
   const scenario = scenarios[selected];
+  const areaSignal = areaSignals[signalIndex];
   const events = useMemo(() => [
     "Case opened with fictional, aggregate evidence",
     "Source provenance verified",
     decision === "Ready" ? "Awaiting a simulated agent request" : `Policy decision: ${decision}`,
     approved === null ? "No human decision recorded" : approved ? "Reviewer approved the limited action" : "Reviewer rejected the action"
   ], [decision, approved]);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setSignalIndex(current => (current + 1) % areaSignals.length), 9500);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    if (!operationsOpen) return;
+    const keys = Object.keys(operationZones) as Array<keyof typeof operationZones>;
+    const timer = window.setInterval(() => setZone(current => keys[(keys.indexOf(current) + 1) % keys.length]), 6000);
+    return () => window.clearInterval(timer);
+  }, [operationsOpen]);
+
+  useEffect(() => {
+    if (!riskOpen) return;
+    const timer = window.setInterval(() => {
+      setRiskStage(current => (current + 1) % riskStages.length);
+      setRiskSeed(() => Math.floor(Math.random() * 900) + 100);
+    }, 6500);
+    return () => window.clearInterval(timer);
+  }, [riskOpen]);
 
   function runSimulation() {
     setDecision(scenario.decision);
@@ -116,18 +155,18 @@ export default function Home() {
         </div>
         <div className="signal-card">
           <p className="signal-label">SIMULATED AREA SIGNAL</p>
-          <strong>{assessment ? "Unusual pattern detected" : "Review warranted"}</strong>
-          <p>{assessment ? "The simulated AI found an unusual combination of fictional aggregate indicators. It recommends a qualified human review; it does not establish wrongdoing." : "Multiple aggregate indicators require a qualified human assessment. This is not an accusation or a finding of wrongdoing."}</p>
-          <div className="signal-meter"><i /><i /><i className="muted" /><i className="muted" /></div>
-          <button className="signal-button" onClick={() => setAssessment(!assessment)}>{assessment ? "Reset simulated assessment" : "Run simulated AI assessment"}</button>
+          <strong>{areaSignal.title}</strong>
+          <p>{areaSignal.summary}</p>
+          <div className={`signal-meter signal-${signalIndex}`}><i /><i /><i /><i /></div>
+          <button className="signal-button" onClick={() => setAssessment(current => !current)}>{assessment ? "Hide simulated assessment" : "Inspect simulated AI assessment"}</button>
         </div>
       </section>
 
-      {assessment && <section className="assessment-wrap"><div className="assessment-card"><div><p className="eyebrow">SIMULATED AI ASSESSMENT</p><h2>Pattern warrants review, not a conclusion.</h2><p>The model found a fictional anomaly across three aggregate, approved indicators. It cannot identify a person, infer guilt, or access additional records without a human decision and lawful scope.</p></div><div className="assessment-evidence"><p>EVIDENCE REVIEWED</p><span>Aggregate reporting trend</span><span>Fictional licensing variance</span><span>Casework volume pattern</span><p className="confidence">Confidence: limited · Uncertainty: material</p></div></div></section>}
+      {assessment && <section className="assessment-wrap"><div className="assessment-card"><div><p className="eyebrow">SIMULATED AI ASSESSMENT</p><h2>{areaSignal.detail}</h2><p>This rotating simulation cannot identify a person, infer guilt, or access additional records without a human decision and lawful scope.</p></div><div className="assessment-evidence"><p>EVIDENCE REVIEWED</p>{areaSignal.indicators.map(indicator => <span key={indicator}>{indicator}</span>)}<p className="confidence">{areaSignal.confidence}</p></div></div></section>}
 
-      <section className="operations-section"><div className="operations-copy"><p className="eyebrow">3D OPERATIONS CENTER / FICTIONAL SIMULATION</p><h2>Walk through the trust decision.</h2><p>Select a station in the fictional operations center to follow one simulated signal from initial detection to accountable record.</p><div className="layer-grid"><span>Mission scope</span><span>Evidence confidence</span><span>Legal authority</span><span>Agency boundary</span><span>Independent oversight</span></div>{!operationsOpen && <button className="launch-operations" onClick={() => setOperationsOpen(true)}>Launch 3D Operations Center <span>→</span></button>}</div>{operationsOpen && <div className="operations-layout"><div className="scene" aria-label="Interactive 3D operations center"><div className="scene-floor" /><div className="scene-grid" />{Object.entries(operationZones).map(([key, item]) => <button key={key} onClick={() => setZone(key as keyof typeof operationZones)} className={`station ${key} ${zone === key ? "active" : ""}`}><span className="station-icon">{key === "signal" ? "⌁" : key === "evidence" ? "◫" : key === "policy" ? "⌘" : key === "review" ? "◉" : "✓"}</span><strong>{item.title}</strong></button>)}<div className="connection line-one" /><div className="connection line-two" /><div className="connection line-three" /><div className="connection line-four" /></div><aside className="zone-card"><p className="eyebrow">SELECTED STATION</p><span className="zone-tag">{operationZones[zone].tag}</span><h3>{operationZones[zone].title}</h3><p>{operationZones[zone].text}</p><div className="zone-flow"><span>Signal</span><b>→</b><span>Policy</span><b>→</b><span>Record</span></div><small>Fictional data only · Click another station to continue the walkthrough.</small></aside></div>}</section>
+      <section className="operations-section"><div className="operations-copy"><p className="eyebrow">3D OPERATIONS CENTER / FICTIONAL SIMULATION</p><h2>Walk through the trust decision.</h2><p>Select a station in the fictional operations center to follow one simulated signal from initial detection to accountable record.</p><div className="layer-grid"><span>Mission scope</span><span>Evidence confidence</span><span>Legal authority</span><span>Agency boundary</span><span>Independent oversight</span></div>{!operationsOpen && <button className="launch-operations" onClick={() => setOperationsOpen(true)}>Launch 3D Operations Center <span>→</span></button>}</div>{operationsOpen && <div className="operations-layout"><div className="scene" aria-label="Interactive 3D operations center"><div className="scene-floor" /><div className="scene-grid" />{Object.entries(operationZones).map(([key, item]) => <button key={key} onClick={() => setZone(key as keyof typeof operationZones)} className={`station ${key} ${zone === key ? "active" : ""}`}><span className="station-icon">{key === "signal" ? "⌁" : key === "evidence" ? "◫" : key === "policy" ? "⌘" : key === "review" ? "◉" : "✓"}</span><strong>{item.title}</strong></button>)}<div className="connection line-one" /><div className="connection line-two" /><div className="connection line-three" /><div className="connection line-four" /></div><aside className="zone-card"><p className="eyebrow">LIVE FICTIONAL WALKTHROUGH</p><span className="zone-tag">{operationZones[zone].tag}</span><h3>{operationZones[zone].title}</h3><p>{operationZones[zone].text}</p><div className="zone-flow"><span>Signal</span><b>→</b><span>Policy</span><b>→</b><span>Record</span></div><small>Auto-rotates through the fictional stages · Click any station to take control.</small></aside></div>}</section>
 
-      <section className="risk-section"><div className="operations-copy"><p className="eyebrow">FINANCIAL-RISK OPERATIONS CENTER / FICTIONAL SIMULATION</p><h2>Trace a reviewable financial-risk signal.</h2><p>This second experience demonstrates how a government team could connect authorized, synthetic aggregate signals without identifying anyone or treating an AI pattern as proof.</p>{!riskOpen && <button className="launch-operations" onClick={() => setRiskOpen(true)}>Launch financial-risk simulation <span>→</span></button>}</div>{riskOpen && <div className="risk-sim"><div className="risk-map"><div className="risk-orbit orbit-a" /><div className="risk-orbit orbit-b" />{["Aggregate intake", "Pattern comparison", "Evidence verification", "Authority gate", "Investigator review", "Forensic record"].map((label, index) => <button key={label} className={riskStage === index ? "risk-node active" : "risk-node"} onClick={() => setRiskStage(index)}><span>{index + 1}</span>{label}</button>)}</div><div className="risk-detail"><p className="eyebrow">SIMULATED STAGE {riskStage + 1} OF 6</p><h3>{["Aggregate intake", "Pattern comparison", "Evidence verification", "Authority gate", "Investigator review", "Forensic record"][riskStage]}</h3><p>{["Fictional aggregate indicators enter with clear source ownership and permitted-use limits.", "The system compares fictional trends and presents uncertainty; it does not identify a person or assert wrongdoing.", "Approved synthetic sources are checked for provenance, coverage, and conflicts.", "The request is limited by simulated jurisdiction, purpose, classification, and role authority.", "A qualified human decides whether a lawful, proportionate next step is warranted.", "The complete fictional workflow is stored in a tamper-evident investigation timeline."][riskStage]}</p><span className="risk-safe">Synthetic data · Aggregate-first · Human accountable</span></div></div>}</section>
+      <section className="risk-section"><div className="operations-copy"><p className="eyebrow">FINANCIAL-RISK OPERATIONS CENTER / FICTIONAL SIMULATION</p><h2>Trace a reviewable financial-risk signal.</h2><p>This second experience demonstrates how a government team could connect authorized, synthetic aggregate signals without identifying anyone or treating an AI pattern as proof.</p>{!riskOpen && <button className="launch-operations" onClick={() => setRiskOpen(true)}>Launch financial-risk simulation <span>→</span></button>}</div>{riskOpen && <div className="risk-sim"><div className="risk-map"><div className="risk-orbit orbit-a" /><div className="risk-orbit orbit-b" />{riskStages.map((stage, index) => <button key={stage.title} className={riskStage === index ? "risk-node active" : "risk-node"} onClick={() => setRiskStage(index)}><span>{index + 1}</span>{stage.title}</button>)}</div><div className="risk-detail"><p className="eyebrow">SIMULATED STAGE {riskStage + 1} OF 6 · LIVE SYNTHETIC FEED</p><h3>{riskStages[riskStage].title}</h3><p>{riskStages[riskStage].text}</p><div className="risk-metrics"><span><b>{riskSeed % 71 + 24}</b> synthetic coverage</span><span><b>{riskSeed % 43 + 51}%</b> signal confidence</span><span><b>{riskSeed % 5 + 2}</b> source checks</span></div><span className="risk-safe">Synthetic data · Aggregate-first · Human accountable</span><small className="risk-rotation">Stages and fictional metrics refresh automatically.</small></div></div>}</section>
 
       <section className="lab-grid" aria-label="Interactive trust lab">
         <article className="panel request-panel">
