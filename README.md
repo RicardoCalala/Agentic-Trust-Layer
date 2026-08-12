@@ -8,7 +8,9 @@
 
 Created by Ricardo Calala with ChatGPT Codex. 
 
-An enterprise agent-forensics and governance foundation for Human Made Money, a private agentic project (Private repo) by Ricardo Calala. This is a portfolio concept and proof of concept. A brief explanation, non-proprietary, non-production architecture version.
+A brief explanation of a non-proprietary, non-production architecture version of an enterprise agent-forensics and governance foundation. A Agentic Trust Layer or Framework.
+
+An enterprise agent-forensics and governance foundation for Human Made Money, a private agentic project (Private repository) by Ricardo Calala. This is a portfolio concept and proof of concept.
 
 An enterprise agent-forensics and governance foundation. It helps organizations decide what an agent may access, which actions need human review, and how to reconstruct verifiable evidence of every decision during an investigation.
 
