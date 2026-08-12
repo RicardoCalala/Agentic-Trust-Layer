@@ -12,6 +12,15 @@ const mcpTools = [
   { name: "records.export", category: "Records", access: "Blocked", detail: "Bulk export of fictional records", output: "Request blocked: bulk export is outside the public demo agent's authority." }
 ];
 
+const fictionalCases = [
+  ["case_guidance.read", "Knowledge", "Retrieve a fictional investigation procedure"],
+  ["evidence_bundle.prepare", "Evidence", "Prepare a synthetic evidence package"],
+  ["partner_share.request", "Disclosure", "Request a fictional cross-agency disclosure"],
+  ["case_triage.route", "Triage", "Route a fictional administrative case"],
+  ["records_scope.check", "Records", "Check a fictional records-access scope"],
+  ["report_draft.prepare", "Casework", "Draft a fictional investigator report"]
+];
+
 const operationZones = {
   signal: { title: "Area signal", text: "A fictional aggregate anomaly enters the system. It is a lead for review, not a claim about a person or place.", tag: "Aggregate only" },
   evidence: { title: "Evidence desk", text: "Approved synthetic sources are checked for provenance, coverage, and contradictions before the system makes a recommendation.", tag: "Source verified" },
@@ -55,6 +64,7 @@ export default function Home() {
   const [operationsOpen, setOperationsOpen] = useState(false);
   const [riskOpen, setRiskOpen] = useState(false);
   const [riskStage, setRiskStage] = useState(0);
+  const [gatewaySeed, setGatewaySeed] = useState(1);
   const scenario = scenarios[selected];
   const events = useMemo(() => [
     "Case opened with fictional, aggregate evidence",
@@ -68,8 +78,26 @@ export default function Home() {
     setApproved(null);
   }
 
+  const simulatedTools = useMemo(() => fictionalCases.slice(gatewaySeed % 2, (gatewaySeed % 2) + 5).map(([name, category, detail], index) => ({ name, category, detail, access: ["Available", "Review", "Blocked", "Automatic"][((gatewaySeed * 7) + index) % 4] })), [gatewaySeed]);
+  const activeTool = simulatedTools.find(item => item.name === tool.name) ?? simulatedTools[0];
+
+  function refreshGateway() {
+    const next = gatewaySeed + 1;
+    setGatewaySeed(next);
+    const nextTools = fictionalCases.slice(next % 2, (next % 2) + 5);
+    setTool({ name: nextTools[0][0], category: nextTools[0][1], access: "Available", detail: nextTools[0][2], output: "" });
+    setToolResult("A fresh fictional MCP case registry was generated locally.");
+  }
+
   function runTool() {
-    setToolResult(tool.output);
+    const outcomes = [
+      "Allowed: the synthetic request matched its fictional scope, purpose, and data classification.",
+      "Review required: the synthetic request is held for a fictional accountable reviewer.",
+      "Denied: the synthetic request exceeded the fictional agent’s permitted scope.",
+      "Auto-approved: the synthetic request is reversible, administrative, and recorded for review."
+    ];
+    const outcome = outcomes[Math.floor(Math.random() * outcomes.length)];
+    setToolResult(`${outcome} Audit event: fictional MCP call recorded with policy rationale.`);
   }
 
   return (
@@ -130,10 +158,10 @@ export default function Home() {
       <section className="principles"><p className="eyebrow">THE PRINCIPLE</p><h2>AI can help organize evidence. It cannot replace evidence, lawful authority, or human responsibility.</h2><div><span>Verified sources</span><span>Explicit policy</span><span>Human accountability</span><span>Forensic history</span></div></section>
 
       <section className="mcp-section">
-        <div className="mcp-intro"><p className="eyebrow">MCP GATEWAY / FICTIONAL TOOLS</p><h2>Watch the trust layer govern an MCP tool call.</h2><p>The gateway exposes only approved tools, checks each proposed action, and records the result. These tools run entirely on fictional demo data.</p></div>
+        <div className="mcp-intro"><p className="eyebrow">MCP GATEWAY / FICTIONAL TOOLS</p><h2>Watch the trust layer govern an MCP tool call.</h2><p>The gateway exposes only approved tools, checks each proposed action, and records the result. These tools run entirely on fictional demo data.</p><button className="refresh-gateway" onClick={refreshGateway}>Generate fictional MCP case registry <span>↻</span></button></div>
         <div className="mcp-console">
-          <div className="tool-list"><div className="console-title"><span className="live-dot" /> MCP tool registry</div>{mcpTools.map((item) => <button className={tool.name === item.name ? "tool-row chosen" : "tool-row"} key={item.name} onClick={() => { setTool(item); setToolResult("Selected “" + item.name + "”. Run the simulated call to continue."); }}><span className="tool-icon">⌘</span><span><strong>{item.name}</strong><small>{item.category} · {item.detail}</small></span><em className={item.access.toLowerCase()}>{item.access}</em></button>)}</div>
-          <div className="tool-detail"><div className="console-title">Gateway evaluation</div><p className="tool-name">{tool.name}</p><div className="gateway-route"><span>Agent</span><b>→</b><span className="gateway">Trust gateway</span><b>→</b><span>MCP tool</span></div><div className="tool-policy"><p>POLICY OUTCOME</p><strong className={tool.access.toLowerCase()}>{tool.access === "Review" ? "Human review required" : tool.access === "Blocked" ? "Denied" : tool.access === "Automatic" ? "Auto-approved, low risk" : "Allowed"}</strong><small>{tool.access === "Automatic" ? "This automatic step is reversible and administrative only. It cannot change money, rights, enforcement status, or access to sensitive records." : "The gateway evaluates identity, authorized purpose, data classification, and action scope before forwarding a call."}</small></div><button className="primary" onClick={runTool}>Run simulated MCP call <span>→</span></button><div className="tool-result"><p>SIMULATED RESULT</p><span>{toolResult}</span></div></div>
+          <div className="tool-list"><div className="console-title"><span className="live-dot" /> MCP tool registry</div>{simulatedTools.map((item) => <button className={activeTool.name === item.name ? "tool-row chosen" : "tool-row"} key={item.name} onClick={() => { setTool({ ...item, output: "" }); setToolResult("Selected “" + item.name + "”. Run the simulated call to generate a fictional outcome."); }}><span className="tool-icon">⌘</span><span><strong>{item.name}</strong><small>{item.category} · {item.detail}</small></span><em className={item.access.toLowerCase()}>{item.access}</em></button>)}</div>
+          <div className="tool-detail"><div className="console-title">Gateway evaluation</div><p className="tool-name">{activeTool.name}</p><div className="gateway-route"><span>Agent</span><b>→</b><span className="gateway">Trust gateway</span><b>→</b><span>MCP tool</span></div><div className="tool-policy"><p>CURRENT SYNTHETIC AVAILABILITY</p><strong className={activeTool.access.toLowerCase()}>{activeTool.access === "Review" ? "Human review required" : activeTool.access === "Blocked" ? "Denied" : activeTool.access === "Automatic" ? "Auto-approved, low risk" : "Allowed"}</strong><small>Each generated registry assigns a fictional availability state. Every simulated call independently creates a new fictional policy outcome.</small></div><button className="primary" onClick={runTool}>Run simulated MCP call <span>→</span></button><div className="tool-result"><p>SIMULATED RESULT</p><span>{toolResult}</span></div></div>
         </div>
       </section>
       <footer><strong>Created by Ricardo Calala</strong><span>·</span><span>Built with ChatGPT Codex</span><span>·</span><span>Agentic Trust Layer · Educational concept · All content in this demo is fictional.</span></footer>
