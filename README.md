@@ -1,5 +1,7 @@
 # Agentic Trust Layer
 
+> Release: `1.0.1-alpha.beta` · Public demo: fictional data only · [Release notes](CHANGELOG.md) · [Security policy](SECURITY.md)
+
 ![Agentic Trust Layer dashboard mockup](assets/dashboard-mockup.png)
 
 ## Try the interactive demo
@@ -113,3 +115,4 @@ For the full enterprise use case, integration model, and control principles, rea
 - AES-256-GCM encrypted, append-only audit-store adapter.
 - Pluggable identity-provider and central-log adapters.
 - SOC 2 readiness control matrix, threat model, and evidence collection plan.
+- MCP authorization and audit verification tools; approvals remain on the authenticated REST API rather than a shared-secret tool call.

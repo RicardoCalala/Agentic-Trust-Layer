@@ -1,17 +1,7 @@
-import { timingSafeEqual } from "node:crypto";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import { TrustLayer } from "./trust-layer.js";
-
-const configuredApprovalSecret = process.env.TRUST_LAYER_APPROVAL_SECRET?.trim();
-if (!configuredApprovalSecret) {
-  console.error(
-    "Refusing to start: set TRUST_LAYER_APPROVAL_SECRET to a high-entropy secret before running the MCP server.",
-  );
-  process.exit(1);
-}
-const approvalSecret: string = configuredApprovalSecret;
 
 const trustLayer = new TrustLayer([
   {
@@ -42,18 +32,11 @@ const trustLayer = new TrustLayer([
   }
 ]);
 
-const server = new McpServer({ name: "agentic-trust-layer", version: "0.1.0" });
+const server = new McpServer({ name: "agentic-trust-layer", version: "1.0.1-alpha.beta" });
 
 const response = (value: unknown) => ({
   content: [{ type: "text" as const, text: JSON.stringify(value, null, 2) }]
 });
-
-function secretsEqual(provided: string, expected: string): boolean {
-  const left = Buffer.from(provided);
-  const right = Buffer.from(expected);
-  if (left.length !== right.length) return false;
-  return timingSafeEqual(left, right);
-}
 
 server.registerTool(
   "authorize_action",
@@ -74,33 +57,6 @@ server.registerTool(
       return response({
         effect: "deny",
         reason: error instanceof Error ? error.message : "Authorization failed closed."
-      });
-    }
-  }
-);
-
-server.registerTool(
-  "resolve_approval",
-  {
-    title: "Resolve approval request",
-    description: "Records an authorized reviewer's decision for a pending action. Requires TRUST_LAYER_APPROVAL_SECRET.",
-    inputSchema: {
-      approvalId: z.string().trim().min(1).max(128),
-      approved: z.boolean(),
-      reviewer: z.string().trim().min(1).max(128),
-      approvalSecret: z.string().min(1).max(512)
-    }
-  },
-  ({ approvalId, approved, reviewer, approvalSecret: providedSecret }) => {
-    if (!secretsEqual(providedSecret, approvalSecret)) {
-      return response({ error: "Unauthorized approval resolution." });
-    }
-
-    try {
-      return response(trustLayer.resolveApproval(approvalId, approved, reviewer));
-    } catch (error) {
-      return response({
-        error: error instanceof Error ? error.message : "Approval resolution failed."
       });
     }
   }
