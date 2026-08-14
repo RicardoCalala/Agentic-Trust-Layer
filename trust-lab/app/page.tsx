@@ -198,7 +198,7 @@ export default function Home() {
   return (
     <main>
       <nav className="nav">
-        <div className="brand"><span className="brand-mark">◈</span> Agentic Trust Layer</div>
+        <div className="brand"><span className="brand-mark" aria-hidden="true"><i /></span> Agentic Trust Layer</div>
         <div className="nav-actions"><a href="/console">Open Trust Console</a><div className="pill">Public demo · synthetic data only</div></div>
       </nav>
 
