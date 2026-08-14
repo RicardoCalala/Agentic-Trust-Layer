@@ -49,6 +49,8 @@ Read the [system architecture guide](docs/system-architecture.md) to see where t
 
 Read the [threat model](docs/threat-model.md) and [SOC 2 readiness matrix](docs/soc2-readiness-matrix.md) for the enterprise security and compliance story.
 
+Read the [tenant REST API guide](docs/rest-api.md) for the functional backend foundation: authenticated tenant boundaries, policy management, approval inbox routes, encrypted append-only audit storage, and central logging adapters.
+
 Explore [policy examples](docs/policy-examples.md), the [fraud operations use case](docs/use-case-fraud-operations.md), the [integration blueprint](docs/integration-blueprint.md), and the [demo scenario](docs/demo-scenario.md).
 
 Read the [digital forensics use case](docs/use-case-digital-forensics.md) for how integrity-protected agent records can support incident investigation.
@@ -104,10 +106,10 @@ To reach an audit-ready implementation, add identity-provider integration, encry
 
 For the full enterprise use case, integration model, and control principles, read [the enterprise concept](docs/enterprise-concept.md).
 
-## Next portfolio milestones
+## Enterprise foundation included
 
-1. Package the library behind a REST API with authenticated tenants.
-2. Add a policy-management dashboard and approval inbox.
-3. Persist audit events in encrypted, append-only storage.
-4. Integrate with an identity provider and central logging platform.
-5. Write a control matrix, threat model, and evidence collection plan for SOC 2 readiness.
+- Tenant-authenticated REST API reference implementation and scoped approval inbox.
+- Policy-management API surface for an admin dashboard or backend-for-frontend.
+- AES-256-GCM encrypted, append-only audit-store adapter.
+- Pluggable identity-provider and central-log adapters.
+- SOC 2 readiness control matrix, threat model, and evidence collection plan.

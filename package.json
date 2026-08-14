@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "api": "node dist/api-server.js",
     "mcp": "node dist/mcp-server.js",
-    "test": "node --test dist/**/*.test.js"
+    "test": "npm run build && node --test dist/**/*.test.js"
   },
   "devDependencies": {
     "@types/node": "^22.10.1",

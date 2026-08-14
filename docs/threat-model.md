@@ -12,6 +12,10 @@ Prevent an AI agent, its tools, or untrusted content from accessing data or taki
 | Data leakage | Agent sends restricted data to an external destination | Classify data, inspect destination policy, require approval |
 | Identity spoofing | Unapproved workload claims to be a trusted agent | Use workload identity and signed claims in production |
 | Audit tampering | Actor alters past decisions | Hash-linked, durable audit events and external monitoring |
+| Cross-tenant access | Token or request attempts to read another organization’s policy or approval | Tenant claim is derived only from a verified bearer token; no tenant identifier is accepted from request body or URL |
+| Token replay | A stolen long-lived token resolves approvals | Short-lived signed tokens, issuer/audience validation, gateway replay controls, and scope checks |
+| Key exposure | Audit encryption key reaches logs or browser code | Managed KMS, least-privilege runtime identity, rotation, and no client-side key handling |
+| Log leakage | Central logging receives sensitive case content | Metadata-only logging, classification-aware redaction, and controlled SIEM retention |
 
 ## Design rules
 
@@ -19,3 +23,5 @@ Prevent an AI agent, its tools, or untrusted content from accessing data or taki
 - Fail closed when identity, policy, or audit integrity cannot be verified.
 - Re-evaluate authorization for every consequential action.
 - Require a human for high-impact or ambiguous decisions.
+- Treat tenant identity and authorization scopes as security boundaries, not display fields.
+- Keep audit encryption keys outside application configuration files and browser code.

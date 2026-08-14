@@ -9,17 +9,20 @@ The included MCP server demonstrates the Agentic Trust Layer as a governance gat
 ```sh
 npm install
 npm run build
+export TRUST_LAYER_APPROVAL_SECRET="$(openssl rand -hex 32)"
 npm run mcp
 ```
 
 The server uses standard input and output, the normal local MCP transport. Configure an MCP-capable host to start the compiled `mcp-server.js` entry point.
+
+`TRUST_LAYER_APPROVAL_SECRET` is required. Without it the process exits. Approval resolution also requires the same secret in the tool arguments so an unauthenticated MCP client cannot approve actions.
 
 ## Exposed MCP tools
 
 | Tool | Purpose |
 | --- | --- |
 | `authorize_action` | Evaluates agent, action, resource, and data classification against policy. |
-| `resolve_approval` | Lets a reviewer approve or reject a pending high-impact request. |
+| `resolve_approval` | Lets a reviewer approve or reject a pending high-impact request when `approvalSecret` matches. |
 | `verify_audit_log` | Verifies the hash-linked audit event chain. |
 
 ## Demonstration policy
