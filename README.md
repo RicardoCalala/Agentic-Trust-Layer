@@ -4,23 +4,34 @@
 
 ![Agentic Trust Layer dashboard mockup](assets/dashboard-mockup.png)
 
-## Try the interactive demo
+Agentic Trust Layer is an enterprise agent-governance and forensics proof of concept. It demonstrates how an organization can place a policy, approval, and evidence layer between AI agents and sensitive tools, data, or workflows.
 
-[Launch Trust Lab](https://agentic-trust-lab.ricardocalala.chatgpt.site) — a public, fictional demonstration of the Agentic Trust Layer, including governed agent actions, MCP tool controls, evidence trails, and an opt-in 3D Operations Center.
+Created by Ricardo Calala with ChatGPT Codex.
 
-Created by Ricardo Calala with ChatGPT Codex. 
+## Try the public experience
 
-A brief explanation of a non-proprietary, non-production architecture version of an enterprise agent-forensics and governance foundation. A Agentic Trust Layer or Framework.
+[Launch Trust Lab](https://agentic-trust-lab.ricardocalala.chatgpt.site) — a public, fictional, interactive experience featuring:
 
-An enterprise agent-forensics and governance foundation for Human Made Money, a private agentic project (Private repository) by Ricardo Calala. This is a portfolio concept and proof of concept.
+- Governed agent actions with allow, review, deny, and low-risk routing outcomes.
+- An MCP Gateway simulation with policy rationale and forensic receipts.
+- 3D trust and financial-risk operations simulations using synthetic aggregate data only.
+- A 2035 global signal fabric with selectable regions, rotating telemetry, mission actions, and human-review boundaries.
+- The Trust Operations Console for fictional policies, approvals, agents, evidence, MCP Gateway activity, and reports.
 
-An enterprise agent-forensics and governance foundation. It helps organizations decide what an agent may access, which actions need human review, and how to reconstruct verifiable evidence of every decision during an investigation.
+The public site does not use real people, agencies, records, locations, money, or risk signals.
 
-This repository is a **portfolio concept and proof of concept**, intended to show how an organization could integrate agent governance into its existing security and compliance stack. It is a layer a company can adopt around its own agents and systems—not a replacement for its existing identity, security, or compliance frameworks. It is not represented as a production-ready security service.
+## What this repository is
 
-The product vision is now centered on [agent activity forensics](docs/forensics-product-vision.md): trustworthy timelines, evidence integrity, and investigation-ready records for AI agents.
+This repository contains two complementary surfaces:
 
-Read the [National Agentic Trust Fabric](docs/national-trust-fabric.md) for a country-wide public-sector architecture spanning agencies while preserving local authority and accountability.
+| Surface | Purpose |
+| --- | --- |
+| TypeScript trust-layer library | Reference policy engine, approval workflow, tenant-aware REST API, MCP authorization tools, and encrypted append-only audit-store adapter. |
+| Trust Lab | A public visual concept and interactive demonstration built entirely with locally generated fictional data. |
+
+It is a portfolio concept and alpha proof of concept—not a certified security service or production decision system. It is intended to integrate around an organization’s own identity, security, compliance, and operational systems rather than replace them.
+
+The product vision centers on [agent activity forensics](docs/forensics-product-vision.md): trustworthy timelines, evidence integrity, and investigation-ready records for AI agents. Read the [National Agentic Trust Fabric](docs/national-trust-fabric.md) for a country-wide public-sector architecture that preserves agency authority and accountability.
 
 ## What it demonstrates
 
@@ -40,6 +51,8 @@ npm test
 ```
 
 To run the functional local MCP demonstration, see the [MCP integration guide](docs/mcp-integration.md).
+
+For approval resolution, use the authenticated tenant REST API. The MCP reference intentionally supports authorization and audit verification only; it does not accept a shared approval secret through an agent tool call.
 
 Read the [governed customer-support agent use case](docs/use-case-customer-support.md) for a business-facing example of how a company could adopt the layer.
 
@@ -98,6 +111,8 @@ SOC 2 is an independent audit of an organization and its operating controls; a c
 | Data classification rules | Data handling and confidentiality controls |
 
 To reach an audit-ready implementation, add identity-provider integration, encrypted durable storage, key management, role-based administration, retention policies, alerting, incident response procedures, disaster recovery testing, vendor management, and recurring control evidence reviews.
+
+See the [security policy](SECURITY.md), [threat model](docs/threat-model.md), [SOC 2 readiness matrix](docs/soc2-readiness-matrix.md), and [release notes](CHANGELOG.md) for the current alpha boundary and enterprise readiness path.
 
 ## Architecture
 
