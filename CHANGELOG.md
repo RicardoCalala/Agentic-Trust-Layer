@@ -1,5 +1,11 @@
 # Changelog
 
+## Documentation refresh — 2026-08-14
+
+- Replaced inherited starter documentation in `trust-lab/` with an accurate guide to the public fictional experience.
+- Corrected the MCP guide to reflect the current two-tool server; approval resolution remains tenant-authenticated on the REST API.
+- Added current local-run instructions, API scope coverage, product boundaries, and a documentation map.
+
 ## 1.0.1-alpha.beta — 2026-08-14
 
 - Published the interactive Trust Lab and Control Center as a public, fictional demonstration.

@@ -1,29 +1,29 @@
 # MCP Integration Guide
 
+> Current for `1.0.1-alpha.beta` · The local MCP reference exposes authorization and audit verification only. Approval resolution belongs to the authenticated REST API.
+
 ## Purpose
 
-The included MCP server demonstrates the Agentic Trust Layer as a governance gateway. An MCP client can ask it to evaluate an agent action, resolve an approval decision, and verify the integrity of the audit trail.
+The included MCP server demonstrates the Agentic Trust Layer as a governance gateway. An MCP client can ask it to evaluate an agent action and verify the integrity of the in-memory audit trail. It intentionally does not expose approval resolution as an MCP tool.
 
 ## Run locally
 
 ```sh
 npm install
 npm run build
-export TRUST_LAYER_APPROVAL_SECRET="$(openssl rand -hex 32)"
 npm run mcp
 ```
 
 The server uses standard input and output, the normal local MCP transport. Configure an MCP-capable host to start the compiled `mcp-server.js` entry point.
-
-`TRUST_LAYER_APPROVAL_SECRET` is required. Without it the process exits. Approval resolution also requires the same secret in the tool arguments so an unauthenticated MCP client cannot approve actions.
 
 ## Exposed MCP tools
 
 | Tool | Purpose |
 | --- | --- |
 | `authorize_action` | Evaluates agent, action, resource, and data classification against policy. |
-| `resolve_approval` | Lets a reviewer approve or reject a pending high-impact request when `approvalSecret` matches. |
 | `verify_audit_log` | Verifies the hash-linked audit event chain. |
+
+`authorize_action` can return `allow`, `deny`, or an approval request. In this alpha, the approval request is intentionally resolved only through `POST /v1/approvals/:id` with a tenant-authenticated reviewer principal and the `approvals:resolve` scope. See the [REST API guide](rest-api.md).
 
 ## Demonstration policy
 
@@ -41,7 +41,8 @@ This local server is a functional demonstration, not the production gateway. A d
 4. Forward approved calls to approved downstream MCP servers, with least-privilege credentials.
 5. Validate MCP authorization tokens for their intended audience; never forward tokens blindly.
 6. Send audit events to the organization's monitoring and compliance systems.
+7. Bind approvals to a reviewer identity in the authenticated REST or workflow surface; do not put a shared approval secret in an agent tool call.
 
 ## Recommended next implementation
 
-Build an HTTP gateway that authenticates the MCP client, filters available downstream tools by policy, and re-evaluates each tool invocation before forwarding it. This makes the trust layer the enforcement boundary rather than a voluntary client-side check.
+Build an HTTP gateway that authenticates the MCP client, filters available downstream tools by policy, and re-evaluates each tool invocation before forwarding it. This makes the trust layer the enforcement boundary rather than a voluntary client-side check. Treat the included stdio server as a focused local reference, not a multi-tenant MCP proxy.

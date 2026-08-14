@@ -33,14 +33,17 @@ It is a portfolio concept and alpha proof of concept—not a certified security 
 
 The product vision centers on [agent activity forensics](docs/forensics-product-vision.md): trustworthy timelines, evidence integrity, and investigation-ready records for AI agents. Read the [National Agentic Trust Fabric](docs/national-trust-fabric.md) for a country-wide public-sector architecture that preserves agency authority and accountability.
 
-## What it demonstrates
+## Current capabilities
 
 - **Policy-as-code:** default-deny authorization over agents, tools, resources, and data classifications.
 - **Human control:** approval gates for consequential actions such as sending external communications or changing production data.
 - **Trustworthy evidence:** append-only, hash-linked audit events that reveal tampering.
+- **Tenant-aware API foundation:** authenticated tenant boundaries, scoped approvals, and policy replacement endpoints.
+- **Encrypted evidence adapter:** AES-256-GCM, newline-appended audit records with a hash-linked decision chain.
+- **MCP governance reference:** action authorization and in-memory audit-integrity verification over standard input/output.
 - **Enterprise design thinking:** clear separation between policy, execution approvals, and audit evidence.
 
-## Quick start
+## Run the reference services locally
 
 Install dependencies, then run the build and test commands:
 
@@ -50,9 +53,21 @@ npm run build
 npm test
 ```
 
-To run the functional local MCP demonstration, see the [MCP integration guide](docs/mcp-integration.md).
+Start the local MCP reference server after building:
 
-For approval resolution, use the authenticated tenant REST API. The MCP reference intentionally supports authorization and audit verification only; it does not accept a shared approval secret through an agent tool call.
+```sh
+npm run mcp
+```
+
+Start the tenant-scoped REST API by supplying a development JWT secret and a base64-encoded 32-byte audit key:
+
+```sh
+export TRUST_LAYER_JWT_SECRET="replace-with-at-least-32-characters"
+export TRUST_LAYER_AUDIT_KEY_BASE64="$(openssl rand -base64 32)"
+npm run api
+```
+
+The API listens on `http://localhost:8787` by default. See the [MCP integration guide](docs/mcp-integration.md) and [tenant REST API guide](docs/rest-api.md) for the exact boundaries, routes, scopes, and production hardening requirements.
 
 Read the [governed customer-support agent use case](docs/use-case-customer-support.md) for a business-facing example of how a company could adopt the layer.
 
@@ -131,3 +146,13 @@ For the full enterprise use case, integration model, and control principles, rea
 - Pluggable identity-provider and central-log adapters.
 - SOC 2 readiness control matrix, threat model, and evidence collection plan.
 - MCP authorization and audit verification tools; approvals remain on the authenticated REST API rather than a shared-secret tool call.
+
+## Documentation map
+
+| Topic | Read this |
+| --- | --- |
+| Documentation index and release boundary | [docs/README.md](docs/README.md) |
+| Product architecture and adoption | [System architecture](docs/system-architecture.md) · [Integration blueprint](docs/integration-blueprint.md) |
+| API, identity, approvals, and audit storage | [Tenant REST API](docs/rest-api.md) · [MCP integration](docs/mcp-integration.md) |
+| Security and readiness | [Security policy](SECURITY.md) · [Threat model](docs/threat-model.md) · [SOC 2 readiness matrix](docs/soc2-readiness-matrix.md) |
+| Forensics and use cases | [Forensics vision](docs/forensics-product-vision.md) · [Use cases](docs/README.md#use-cases-and-concepts) |

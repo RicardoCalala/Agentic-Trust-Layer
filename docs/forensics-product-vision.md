@@ -1,5 +1,7 @@
 # Product Vision: Agentic Forensics Trust Layer
 
+> Current for `1.0.1-alpha.beta` · The reference implementation includes policy decisions, approval records, hash-linked audit events, encrypted append-only storage, and integrity verification. Investigation-workspace features remain a product direction.
+
 ## Positioning
 
 The Agentic Trust Layer becomes an enterprise forensic accountability platform for AI agents. Its primary value is not simply stopping unsafe actions; it gives organizations a defensible way to investigate, explain, and verify agent behavior after an important event.
@@ -24,9 +26,11 @@ When an agent accesses data, calls an MCP tool, receives approval, is denied, or
 4. **Preventive governance** — policies and approvals that reduce risk before an incident happens.
 5. **Enterprise integration** — MCP, identity, SIEM, API gateways, case-management, and security operations platforms.
 
-## First product release
+## Current alpha and next product release
 
-The initial working product should provide an MCP gateway, a durable audit-event store, an investigation timeline, policy-version capture, integrity verification, and a restricted forensic export. The approval workflow remains important because it provides the human-accountability evidence investigators need.
+The current alpha provides a policy engine, human approval workflow, tenant-aware REST API, MCP authorization reference, hash-linked audit events, encrypted append-only audit storage, and audit-integrity verification. The public Trust Lab visualizes these concepts using fictional local data; it does not store or process real investigative records.
+
+The next production-oriented release would add a durable investigation timeline, policy-version capture, search and correlation, case-scoped evidence export, chain-of-custody metadata, and integration with identity and central logging platforms. The approval workflow remains important because it provides the human-accountability evidence investigators need.
 
 ## Differentiation
 

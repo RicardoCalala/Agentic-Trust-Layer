@@ -1,5 +1,7 @@
 # System Architecture: Where the Agentic Trust Layer Fits
 
+> Current for `1.0.1-alpha.beta` · The repository implements the policy/approval/audit library, a tenant-scoped REST API reference, and a local MCP authorization reference. The diagram describes the recommended enterprise deployment shape, not a claim that every surrounding service ships in this repository.
+
 ## Placement
 
 The Agentic Trust Layer belongs in the application and integration path. It sits after a request has been routed to the application or AI agent, and before that agent can reach sensitive internal systems, external APIs, or MCP servers.
