@@ -38,3 +38,6 @@
 
 /* Financial simulation: labels must remain legible over the live radar glow. */
 .risk-node:after{width:max-content;min-width:0;max-width:150px;white-space:nowrap;padding:4px 8px;border:1px solid #5b9db7;background:#071a31e8;border-radius:999px;color:#e8fbff;text-shadow:none;box-shadow:0 4px 12px #020a16b8;z-index:3}.risk-profile strong{color:#d9ecff}.risk-profile-copy{color:#b7cbe5!important}.risk-events p,.risk-rotation{color:#aac1df!important}.risk-events span{color:#c5d9ef}.risk-node:before{box-shadow:0 0 10px #74e6d5}
+
+/* Keep the radar labels clear without turning the diagram into a field of badges. */
+.risk-node:after{width:136px;max-width:none;white-space:normal;padding:0;border:0;background:transparent;border-radius:0;color:#e9f6ff;font-size:11px;line-height:1.25;text-shadow:0 2px 5px #020a16,0 0 10px #020a16;box-shadow:none}.risk-node:before{opacity:.65;box-shadow:0 0 8px #74e6d5}.risk-map{background:radial-gradient(circle at center,#203d75 0,#112a4f 48%,#061426 100%)}
