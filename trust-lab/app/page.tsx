@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import { SyntheticGlobe } from "./components/SyntheticGlobe";
 
 type Decision = "Ready" | "Allowed" | "Review required" | "Denied";
@@ -210,7 +211,7 @@ export default function Home() {
           <div className="hero-notes"><span>● No real people</span><span>● No surveillance</span><span>● Evidence before action</span></div>
         </div>
         <div className="hero-visual">
-          <img className="hero-art" src="/agentic-trust-layer-hero.png" alt="Agentic Trust Layer evidence-led AI governance visual" />
+          <Image className="hero-art" src="/agentic-trust-layer-hero.png" alt="Agentic Trust Layer evidence-led AI governance visual" width={1728} height={900} priority sizes="(max-width: 980px) 100vw, 42vw" />
           <div className="signal-card">
             <p className="signal-label">SIMULATED AREA SIGNAL</p>
             <strong>{areaSignal.title}</strong>
