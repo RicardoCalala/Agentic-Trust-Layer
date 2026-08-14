@@ -2,7 +2,7 @@
 
 > Release: `1.0.1-alpha.beta` · Public demo: fictional data only · [Release notes](CHANGELOG.md) · [Security policy](SECURITY.md)
 
-![Agentic Trust Layer dashboard mockup](assets/dashboard-mockup.png)
+![Agentic Trust Layer visual overview](assets/agentic-trust-layer-hero.png)
 
 Agentic Trust Layer is an enterprise agent-governance and forensics proof of concept. It demonstrates how an organization can place a policy, approval, and evidence layer between AI agents and sensitive tools, data, or workflows.
 
