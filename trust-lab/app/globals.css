@@ -28,3 +28,5 @@
 
 /* A single, readable route: every illuminated segment begins and ends at a station centre. */
 .scene .connection{z-index:1;height:2px;opacity:.9;background:linear-gradient(90deg,#74e9d6 0%,#75b6ff 48%,#74e9d6 100%);box-shadow:0 0 10px #72e9d655;pointer-events:none}.scene .connection:after{content:"";position:absolute;right:-1px;top:50%;width:7px;height:7px;border-top:2px solid #8cefe0;border-right:2px solid #8cefe0;transform:translateY(-50%) rotate(45deg)}.scene .line-one{width:25%;left:14%;top:43%;transform:rotate(-20deg)}.scene .line-two{width:23.5%;left:37.5%;top:25%;transform:rotate(50deg)}.scene .line-three{width:31.5%;left:52.5%;top:63%;transform:rotate(-33deg)}.scene .line-four{width:26%;left:79%;top:27%;transform:rotate(69deg)}.scene .station,.scene-core{z-index:2}.scene-telemetry{z-index:3}
+
+.scene-core{height:112px;width:112px;padding:10px;box-sizing:border-box;line-height:1.05}.scene-core strong{font-size:24px}.scene-core small{display:block;width:76px;margin:5px auto 0;line-height:1.2;overflow:visible;white-space:normal}
