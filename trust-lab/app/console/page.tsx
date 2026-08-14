@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import "./console.css";
+import "./futuristic.css";
 
 const sections = ["Overview", "Policies", "Approvals", "Agents", "Evidence", "MCP Gateway", "Reports"] as const;
 type Section = (typeof sections)[number];
