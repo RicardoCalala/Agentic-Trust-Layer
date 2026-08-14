@@ -59,7 +59,19 @@ export function chatGPTSignOutPath(returnTo = "/"): string {
 }
 
 function safeRelativeReturnPath(value: string): string {
-  if (!value.startsWith("/") || value.startsWith("//")) return "/";
+  // Reject protocol-relative, backslash, and credential-style open redirects.
+  if (
+    !value.startsWith("/") ||
+    value.startsWith("//") ||
+    value.includes("\\") ||
+    value.includes("@") ||
+    value.includes("%2f%2f") ||
+    value.includes("%2F%2F") ||
+    value.includes("%5c") ||
+    value.includes("%5C")
+  ) {
+    return "/";
+  }
 
   let url: URL;
   try {
@@ -68,7 +80,9 @@ function safeRelativeReturnPath(value: string): string {
     return "/";
   }
   if (url.origin !== "https://app.local") return "/";
+  if (url.username || url.password) return "/";
   if (isReservedAuthPath(url.pathname)) return "/";
+  if (url.pathname.startsWith("//")) return "/";
 
   return `${url.pathname}${url.search}${url.hash}`;
 }
