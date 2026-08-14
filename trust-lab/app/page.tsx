@@ -44,6 +44,12 @@ const riskStages = [
   { title: "Forensic record", text: "The complete fictional workflow is stored in a tamper-evident investigation timeline." }
 ];
 
+const riskProfiles = [
+  { label: "Aggregate variance", posture: "Monitor", description: "A fictional variance is retained as aggregate context. It is not evidence about a person or organization.", score: 31, confidence: 56, sources: 2 },
+  { label: "Cross-source mismatch", posture: "Verify", description: "Fictional aggregate sources differ enough to warrant a provenance and coverage check before any human review.", score: 48, confidence: 63, sources: 3 },
+  { label: "Coverage change", posture: "Context required", description: "A fictional input-coverage shift may explain the pattern; the system records uncertainty instead of escalating it.", score: 24, confidence: 51, sources: 2 }
+];
+
 const scenarios = {
   knowledge: {
     title: "Read approved guidance",
@@ -81,9 +87,12 @@ export default function Home() {
   const [riskOpen, setRiskOpen] = useState(false);
   const [riskStage, setRiskStage] = useState(0);
   const [riskSeed, setRiskSeed] = useState(32);
+  const [riskProfileIndex, setRiskProfileIndex] = useState(0);
+  const [riskPulse, setRiskPulse] = useState(0);
   const [gatewaySeed, setGatewaySeed] = useState(1);
   const scenario = scenarios[selected];
   const areaSignal = areaSignals[signalIndex];
+  const riskProfile = riskProfiles[riskProfileIndex];
   const events = useMemo(() => [
     "Case opened with fictional, aggregate evidence",
     "Source provenance verified",
@@ -108,9 +117,18 @@ export default function Home() {
     const timer = window.setInterval(() => {
       setRiskStage(current => (current + 1) % riskStages.length);
       setRiskSeed(() => Math.floor(Math.random() * 900) + 100);
+      setRiskProfileIndex(current => (current + 1) % riskProfiles.length);
+      setRiskPulse(current => current + 1);
     }, 6500);
     return () => window.clearInterval(timer);
   }, [riskOpen]);
+
+  function refreshRiskSimulation() {
+    setRiskSeed(() => Math.floor(Math.random() * 900) + 100);
+    setRiskProfileIndex(current => (current + 1) % riskProfiles.length);
+    setRiskStage(current => (current + 1) % riskStages.length);
+    setRiskPulse(current => current + 1);
+  }
 
   function runSimulation() {
     setDecision(scenario.decision);
@@ -166,7 +184,7 @@ export default function Home() {
 
       <section className="operations-section"><div className="operations-copy"><p className="eyebrow">3D OPERATIONS CENTER / FICTIONAL SIMULATION</p><h2>Walk through the trust decision.</h2><p>Select a station in the fictional operations center to follow one simulated signal from initial detection to accountable record.</p><div className="layer-grid"><span>Mission scope</span><span>Evidence confidence</span><span>Legal authority</span><span>Agency boundary</span><span>Independent oversight</span></div>{!operationsOpen && <button className="launch-operations" onClick={() => setOperationsOpen(true)}>Launch 3D Operations Center <span>→</span></button>}</div>{operationsOpen && <div className="operations-layout"><div className="scene" aria-label="Interactive 3D operations center"><div className="scene-floor" /><div className="scene-grid" />{Object.entries(operationZones).map(([key, item]) => <button key={key} data-label={item.title} onClick={() => setZone(key as keyof typeof operationZones)} className={`station ${key} ${zone === key ? "active" : ""}`}><span className="station-icon">{key === "signal" ? "⌁" : key === "evidence" ? "◫" : key === "policy" ? "⌘" : key === "review" ? "◉" : "✓"}</span><strong>{item.title}</strong></button>)}<div className="connection line-one" /><div className="connection line-two" /><div className="connection line-three" /><div className="connection line-four" /></div><aside className="zone-card"><p className="eyebrow">LIVE FICTIONAL WALKTHROUGH</p><span className="zone-tag">{operationZones[zone].tag}</span><h3>{operationZones[zone].title}</h3><p>{operationZones[zone].text}</p><div className="zone-flow"><span>Signal</span><b>→</b><span>Policy</span><b>→</b><span>Record</span></div><small>Auto-rotates through the fictional stages · Click any station to take control.</small></aside></div>}</section>
 
-      <section className="risk-section"><div className="operations-copy"><p className="eyebrow">FINANCIAL-RISK OPERATIONS CENTER / FICTIONAL SIMULATION</p><h2>Trace a reviewable financial-risk signal.</h2><p>This second experience demonstrates how a government team could connect authorized, synthetic aggregate signals without identifying anyone or treating an AI pattern as proof.</p>{!riskOpen && <button className="launch-operations" onClick={() => setRiskOpen(true)}>Launch financial-risk simulation <span>→</span></button>}</div>{riskOpen && <div className="risk-sim"><div className="risk-map"><div className="risk-orbit orbit-a" /><div className="risk-orbit orbit-b" />{riskStages.map((stage, index) => <button key={stage.title} className={riskStage === index ? "risk-node active" : "risk-node"} onClick={() => setRiskStage(index)}><span>{index + 1}</span>{stage.title}</button>)}</div><div className="risk-detail"><p className="eyebrow">SIMULATED STAGE {riskStage + 1} OF 6 · LIVE SYNTHETIC FEED</p><h3>{riskStages[riskStage].title}</h3><p>{riskStages[riskStage].text}</p><div className="risk-metrics"><span><b>{riskSeed % 71 + 24}</b> synthetic coverage</span><span><b>{riskSeed % 43 + 51}%</b> signal confidence</span><span><b>{riskSeed % 5 + 2}</b> source checks</span></div><span className="risk-safe">Synthetic data · Aggregate-first · Human accountable</span><small className="risk-rotation">Stages and fictional metrics refresh automatically.</small></div></div>}</section>
+      <section className="risk-section"><div className="operations-copy"><p className="eyebrow">FINANCIAL-RISK OPERATIONS CENTER / FICTIONAL SIMULATION</p><h2>Trace a reviewable financial-risk signal.</h2><p>This second experience demonstrates how a government team could connect authorized, synthetic aggregate signals without identifying anyone or treating an AI pattern as proof.</p>{!riskOpen && <button className="launch-operations" onClick={() => setRiskOpen(true)}>Launch financial-risk simulation <span>→</span></button>}</div>{riskOpen && <div className="risk-sim"><div className={`risk-map pulse-${riskPulse % 3}`}><div className="risk-orbit orbit-a" /><div className="risk-orbit orbit-b" /><div className="risk-scan-line" /><div className="risk-center"><strong>{riskProfile.score}</strong><small>synthetic signal</small></div>{riskStages.map((stage, index) => <button key={stage.title} data-label={stage.title} className={riskStage === index ? "risk-node active" : "risk-node"} onClick={() => setRiskStage(index)}><span>{index + 1}</span>{stage.title}</button>)}</div><div className="risk-detail"><p className="eyebrow">SIMULATED STAGE {riskStage + 1} OF 6 · LIVE SYNTHETIC FEED</p><div className="risk-profile"><span>{riskProfile.posture}</span><strong>{riskProfile.label}</strong></div><h3>{riskStages[riskStage].title}</h3><p>{riskStages[riskStage].text}</p><p className="risk-profile-copy">{riskProfile.description}</p><div className="risk-metrics"><span><b>{riskSeed % 71 + 24}</b> synthetic coverage</span><span><b>{riskProfile.confidence}%</b> signal confidence</span><span><b>{riskProfile.sources}</b> source checks</span></div><div className="risk-events"><p>FICTIONAL EVIDENCE EVENTS</p><span>Aggregate source scope verified</span><span>Uncertainty retained in record</span><span>Human review boundary enforced</span></div><button className="risk-refresh" onClick={refreshRiskSimulation}>Generate synthetic risk cycle <span>↻</span></button><span className="risk-safe">Synthetic data · Aggregate-first · Human accountable</span><small className="risk-rotation">Stages and fictional metrics refresh automatically.</small></div></div>}</section>
 
       <section className="lab-grid" aria-label="Interactive trust lab">
         <article className="panel request-panel">
