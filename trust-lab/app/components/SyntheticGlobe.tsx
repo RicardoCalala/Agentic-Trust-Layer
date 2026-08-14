@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
 
 const regions = [
   { name: "North Atlantic", posture: "Coverage review", detail: "Synthetic aggregate reporting coverage is being compared against a fictional baseline.", coverage: 86, confidence: 64, x: "27%", y: "31%" },
@@ -17,6 +17,10 @@ export function SyntheticGlobe({ compact = false }: { compact?: boolean }) {
   const [mode, setMode] = useState<"coverage" | "network" | "authority">("coverage");
   const [missionPoints, setMissionPoints] = useState(240);
   const [action, setAction] = useState("Select a fictional regional signal to begin.");
+  const [rotation, setRotation] = useState(0);
+  const [tilt, setTilt] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const dragStart = useRef<{ x: number; y: number; rotation: number; tilt: number } | null>(null);
   const region = regions[selected];
 
   useEffect(() => {
@@ -39,6 +43,32 @@ export function SyntheticGlobe({ compact = false }: { compact?: boolean }) {
   };
 
   const modeCopy = { coverage: "coverage mesh", network: "network pathways", authority: "authority boundaries" };
+  const globeStyle = { "--globe-yaw": `${rotation}deg`, "--globe-pitch": `${tilt}deg` } as CSSProperties;
+
+  const beginDrag = (event: PointerEvent<HTMLDivElement>) => {
+    if ((event.target as HTMLElement).closest("button")) return;
+    event.currentTarget.setPointerCapture(event.pointerId);
+    dragStart.current = { x: event.clientX, y: event.clientY, rotation, tilt };
+    setSpinning(false);
+    setDragging(true);
+    setAction("Manual globe control active. Drag to explore this fictional global view.");
+  };
+
+  const moveGlobe = (event: PointerEvent<HTMLDivElement>) => {
+    if (!dragStart.current) return;
+    const nextRotation = dragStart.current.rotation + (event.clientX - dragStart.current.x) * 0.42;
+    const nextTilt = Math.max(-22, Math.min(22, dragStart.current.tilt - (event.clientY - dragStart.current.y) * 0.16));
+    setRotation(nextRotation);
+    setTilt(nextTilt);
+  };
+
+  const endDrag = (event: PointerEvent<HTMLDivElement>) => {
+    if (!dragStart.current) return;
+    dragStart.current = null;
+    setDragging(false);
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+  };
+
   return <section className={`globe-command ${compact ? "globe-compact" : ""} globe-mode-${mode}`} aria-label="Interactive synthetic global operations globe">
     <div className="globe-copy">
       <p className="eyebrow">2035 GLOBAL SIGNAL FABRIC / FICTIONAL DATA</p>
@@ -51,11 +81,13 @@ export function SyntheticGlobe({ compact = false }: { compact?: boolean }) {
       <div className="globe-stars" />
       <div className="globe-halo" />
       <div className="globe-hud globe-hud-left"><span>LAT 48.2°</span><span>LAYER 04</span></div><div className="globe-hud globe-hud-right"><span>SYNC 99.8%</span><span>{modeCopy[mode]}</span></div>
-      <div className="synthetic-globe" aria-label="Rotating fictional global data globe">
-        <div className="globe-grid globe-grid-a" /><div className="globe-grid globe-grid-b" /><div className="globe-continent continent-a" /><div className="globe-continent continent-b" /><div className="globe-continent continent-c" />
-        {regions.map((item, index) => <button key={item.name} className={`globe-beacon ${selected === index ? "selected" : ""}`} style={{ left: item.x, top: item.y }} onClick={() => { setSelected(index); setAction(`${item.name} selected. Choose a fictional mission action.`); }} aria-label={`Select ${item.name} fictional region`}><i /><span>{index + 1}</span></button>)}
+      <div className={`globe-drag-shell ${dragging ? "is-dragging" : ""}`} style={globeStyle} onPointerDown={beginDrag} onPointerMove={moveGlobe} onPointerUp={endDrag} onPointerCancel={endDrag} role="application" aria-label="Draggable fictional globe. Drag to rotate the globe.">
+        <div className="synthetic-globe" aria-label="Rotating fictional global data globe">
+          <div className="globe-grid globe-grid-a" /><div className="globe-grid globe-grid-b" /><div className="globe-continent continent-a" /><div className="globe-continent continent-b" /><div className="globe-continent continent-c" />
+          {regions.map((item, index) => <button key={item.name} className={`globe-beacon ${selected === index ? "selected" : ""}`} style={{ left: item.x, top: item.y }} onClick={() => { setSelected(index); setAction(`${item.name} selected. Choose a fictional mission action.`); }} aria-label={`Select ${item.name} fictional region`}><i /><span>{index + 1}</span></button>)}
+        </div>
       </div>
-      <div className="globe-compass"><i>N</i><span>◉</span><i>E</i></div><button className="spin-control" onClick={() => setSpinning(current => !current)}>{spinning ? "Pause orbit" : "Resume orbit"}</button>
+      <div className="globe-compass"><i>N</i><span>◉</span><i>E</i></div><div className="globe-drag-hint">Drag globe to rotate</div><button className="spin-control" onClick={() => setSpinning(current => !current)}>{spinning ? "Pause orbit" : "Resume orbit"}</button>
     </div>
     <aside className="globe-detail">
       <p>ACTIVE FICTIONAL REGION</p><div className="globe-posture"><span>{region.posture}</span><strong>{region.name}</strong></div>
