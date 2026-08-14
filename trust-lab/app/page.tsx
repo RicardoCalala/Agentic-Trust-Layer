@@ -209,12 +209,15 @@ export default function Home() {
           <p className="lede">Try a fictional fraud-investigation workflow. The system evaluates a proposed agent action, explains the policy result, and preserves an evidence trail for review.</p>
           <div className="hero-notes"><span>● No real people</span><span>● No surveillance</span><span>● Evidence before action</span></div>
         </div>
-        <div className="signal-card">
-          <p className="signal-label">SIMULATED AREA SIGNAL</p>
-          <strong>{areaSignal.title}</strong>
-          <p>{areaSignal.summary}</p>
-          <div className={`signal-meter signal-${signalIndex}`}><i /><i /><i /><i /></div>
-          <button className="signal-button" onClick={() => setAssessment(current => !current)}>{assessment ? "Hide simulated assessment" : "Inspect simulated AI assessment"}</button>
+        <div className="hero-visual">
+          <img className="hero-art" src="/agentic-trust-layer-hero.png" alt="Agentic Trust Layer evidence-led AI governance visual" />
+          <div className="signal-card">
+            <p className="signal-label">SIMULATED AREA SIGNAL</p>
+            <strong>{areaSignal.title}</strong>
+            <p>{areaSignal.summary}</p>
+            <div className={`signal-meter signal-${signalIndex}`}><i /><i /><i /><i /></div>
+            <button className="signal-button" onClick={() => setAssessment(current => !current)}>{assessment ? "Hide simulated assessment" : "Inspect simulated AI assessment"}</button>
+          </div>
         </div>
       </section>
 
