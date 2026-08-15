@@ -77,7 +77,7 @@ Read the [evidence-based trust model](docs/trust-model.md) for the principle beh
 
 Read the [system architecture guide](docs/system-architecture.md) to see where the layer fits from the website and load balancer through applications, services, databases, and MCP tools.
 
-Read the [threat model](docs/threat-model.md) and [SOC 2 readiness matrix](docs/soc2-readiness-matrix.md) for the enterprise security and compliance story.
+Read the [threat model](docs/threat-model.md), [SOC 2 readiness matrix](docs/soc2-readiness-matrix.md), and [ISO 27001 and GDPR readiness matrix](docs/iso27001-gdpr-readiness.md) for the enterprise security, privacy, and compliance readiness story.
 
 Read the [tenant REST API guide](docs/rest-api.md) for the functional backend foundation: authenticated tenant boundaries, policy management, approval inbox routes, encrypted append-only audit storage, and central logging adapters.
 
@@ -144,7 +144,7 @@ For the full enterprise use case, integration model, and control principles, rea
 - Policy-management API surface for an admin dashboard or backend-for-frontend.
 - AES-256-GCM encrypted, append-only audit-store adapter.
 - Pluggable identity-provider and central-log adapters.
-- SOC 2 readiness control matrix, threat model, and evidence collection plan.
+- SOC 2, ISO/IEC 27001, and GDPR readiness control matrices, threat models, and evidence collection plans.
 - MCP authorization and audit verification tools; approvals remain on the authenticated REST API rather than a shared-secret tool call.
 
 ## Documentation map
@@ -154,5 +154,5 @@ For the full enterprise use case, integration model, and control principles, rea
 | Documentation index and release boundary | [docs/README.md](docs/README.md) |
 | Product architecture and adoption | [System architecture](docs/system-architecture.md) · [Integration blueprint](docs/integration-blueprint.md) |
 | API, identity, approvals, and audit storage | [Tenant REST API](docs/rest-api.md) · [MCP integration](docs/mcp-integration.md) |
-| Security and readiness | [Security policy](SECURITY.md) · [Threat model](docs/threat-model.md) · [SOC 2 readiness matrix](docs/soc2-readiness-matrix.md) |
+| Security and readiness | [Security policy](SECURITY.md) · [Threat model](docs/threat-model.md) · [SOC 2 readiness matrix](docs/soc2-readiness-matrix.md) · [ISO 27001 and GDPR readiness](docs/iso27001-gdpr-readiness.md) |
 | Forensics and use cases | [Forensics vision](docs/forensics-product-vision.md) · [Use cases](docs/README.md#use-cases-and-concepts) |

@@ -5,6 +5,7 @@
 - Replaced inherited starter documentation in `trust-lab/` with an accurate guide to the public fictional experience.
 - Corrected the MCP guide to reflect the current two-tool server; approval resolution remains tenant-authenticated on the REST API.
 - Added current local-run instructions, API scope coverage, product boundaries, and a documentation map.
+- Added ISO/IEC 27001 and GDPR readiness control mapping, repository-scoped threat model, and evidence-collection plan.
 
 ## 1.0.1-alpha.beta — 2026-08-14
 

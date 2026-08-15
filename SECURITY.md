@@ -22,4 +22,6 @@ Please do not publish sensitive vulnerability details in a public issue. Contact
 - Store encryption keys in a managed KMS or HSM; never use local development keys for production.
 - Put the API behind TLS termination, rate limiting, structured monitoring, alerting, backups, and tested recovery procedures.
 - Keep approval resolution on the authenticated REST API until the MCP transport has authenticated, attributable reviewer identity.
-- Complete the SOC 2 evidence plan, independent security review, and operational controls before processing sensitive data.
+- Complete the SOC 2, ISO/IEC 27001, and GDPR readiness evidence plans, independent security/privacy review, and operational controls before processing sensitive data.
+
+See the [ISO/IEC 27001 and GDPR readiness matrix](docs/iso27001-gdpr-readiness.md) for control mapping, the repository-scoped threat model, and the evidence collection plan.
