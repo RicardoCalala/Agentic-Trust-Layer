@@ -1,6 +1,6 @@
 # Agentic Trust Layer Documentation
 
-> Documentation reviewed for `1.0.1-alpha.beta` on 2026-08-14.
+> Documentation reviewed for `1.0.2-alpha.beta` on 2026-08-14.
 
 This repository is an alpha reference implementation and a public fictional demo. The reference library includes a policy engine, approval workflow, tenant-aware REST API, encrypted append-only audit-store adapter, and MCP authorization reference. The public [Trust Lab](https://agentic-trust-lab.ricardocalala.chatgpt.site) is a separate visual experience that generates local fictional data only.
 
@@ -12,6 +12,7 @@ This repository is an alpha reference implementation and a public fictional demo
 | See where the layer fits in an enterprise stack | [System architecture](system-architecture.md) |
 | Integrate the tenant API | [Tenant REST API](rest-api.md) |
 | Integrate MCP safely | [MCP integration guide](mcp-integration.md) |
+| Verify an exported audit chain outside the service runtime | [Rust audit-chain verifier](../tools/audit-chain-verifier/README.md) |
 | Plan security, privacy, and audit readiness | [Threat model](threat-model.md) · [SOC 2 readiness matrix](soc2-readiness-matrix.md) · [ISO 27001 and GDPR readiness matrix](iso27001-gdpr-readiness.md) |
 | Plan a government or public-sector pilot | [Government Adoption Guide](government-adoption-guide.md) · [National Agentic Trust Fabric](national-trust-fabric.md) |
 | Understand the evidence-led design | [Trust model](trust-model.md) · [Forensics product vision](forensics-product-vision.md) |

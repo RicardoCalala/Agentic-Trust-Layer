@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.2-alpha.beta — 2026-08-14
+
+- Preserved pending approvals and audit-chain continuity when a tenant policy set is replaced.
+- Added a `policies:read` scope requirement to the tenant policy-read endpoint.
+- Added Rust source for an independent JSON audit-chain verifier, with canonical-hash and tamper-detection tests.
+- Refreshed release metadata across the library, Trust Lab, security documentation, and implementation guides.
+
 ## Documentation refresh — 2026-08-14
 
 - Replaced inherited starter documentation in `trust-lab/` with an accurate guide to the public fictional experience.

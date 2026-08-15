@@ -1,6 +1,6 @@
 # Government Adoption Guide
 
-> Current for `1.0.1-alpha.beta` · Government-friendly concept and implementation guidance. This is not legal advice, a procurement authorization, a certification claim, or a substitute for applicable law, policy, due process, or human judgment.
+> Current for `1.0.2-alpha.beta` · Government-friendly concept and implementation guidance. This is not legal advice, a procurement authorization, a certification claim, or a substitute for applicable law, policy, due process, or human judgment.
 
 ## Executive summary
 

@@ -1,6 +1,6 @@
 # MCP Integration Guide
 
-> Current for `1.0.1-alpha.beta` · The local MCP reference exposes authorization and audit verification only. Approval resolution belongs to the authenticated REST API.
+> Current for `1.0.2-alpha.beta` · The local MCP reference exposes authorization and audit verification only. Approval resolution belongs to the authenticated REST API.
 
 ## Purpose
 

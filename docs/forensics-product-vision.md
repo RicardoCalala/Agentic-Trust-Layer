@@ -1,6 +1,6 @@
 # Product Vision: Agentic Forensics Trust Layer
 
-> Current for `1.0.1-alpha.beta` · The reference implementation includes policy decisions, approval records, hash-linked audit events, encrypted append-only storage, and integrity verification. Investigation-workspace features remain a product direction.
+> Current for `1.0.2-alpha.beta` · The reference implementation includes policy decisions, approval records, hash-linked audit events, encrypted append-only storage, and integrity verification. Investigation-workspace features remain a product direction.
 
 ## Positioning
 
@@ -28,9 +28,11 @@ When an agent accesses data, calls an MCP tool, receives approval, is denied, or
 
 ## Current alpha and next product release
 
-The current alpha provides a policy engine, human approval workflow, tenant-aware REST API, MCP authorization reference, hash-linked audit events, encrypted append-only audit storage, and audit-integrity verification. The public Trust Lab visualizes these concepts using fictional local data; it does not store or process real investigative records.
+The current alpha provides a policy engine, human approval workflow, tenant-aware REST API, MCP authorization reference, hash-linked audit events, encrypted append-only audit storage, and audit-integrity verification. It also includes Rust source for an independent verifier of exported JSON audit chains. The public Trust Lab visualizes these concepts using fictional local data; it does not store or process real investigative records.
 
 The next production-oriented release would add a durable investigation timeline, policy-version capture, search and correlation, case-scoped evidence export, chain-of-custody metadata, and integration with identity and central logging platforms. The approval workflow remains important because it provides the human-accountability evidence investigators need.
+
+For an independent check of unencrypted JSON evidence exports, the repository includes an optional [Rust audit-chain verifier](../tools/audit-chain-verifier/README.md). It validates canonical SHA-256 event hashes and the predecessor link for each event; it does not decrypt the encrypted store or replace managed evidence retention.
 
 ## Differentiation
 

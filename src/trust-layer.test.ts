@@ -63,6 +63,22 @@ test("refuses to overwrite an existing approval id", () => {
   );
 });
 
+test("retains approval and audit evidence when policies are replaced", () => {
+  const trustLayer = new TrustLayer([rules[2]]);
+  const sensitiveRequest = { agentId: "support-agent", action: "send", resource: "customer-email", dataClassification: "confidential" as const };
+  const approval = trustLayer.authorize(sensitiveRequest, "approval-keep");
+  assert.equal("status" in approval && approval.status, "pending");
+  const initialEvents = trustLayer.audit.all().length;
+
+  trustLayer.replacePolicies([{ ...rules[2], effect: "deny", reason: "New policy blocks this action." }]);
+
+  assert.equal(trustLayer.listApprovals("pending").length, 1);
+  assert.equal(trustLayer.audit.all().length, initialEvents);
+  assert.equal(trustLayer.audit.verify(), true);
+  const decision = trustLayer.authorize(sensitiveRequest);
+  assert.equal("effect" in decision && decision.effect, "deny");
+});
+
 test("returns defensive copies of audit events", () => {
   const layer = new TrustLayer(rules);
   layer.authorize({ agentId: "research-agent", action: "read", resource: "knowledge-base", dataClassification: "internal" });

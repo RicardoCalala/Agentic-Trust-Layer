@@ -2,7 +2,7 @@
 
 ## Scope and release boundary
 
-Agentic Trust Layer `1.0.1-alpha.beta` is a portfolio proof of concept. The public Trust Lab runs only locally generated fictional content. The reference REST API and MCP server are implementation examples that require a deployment-specific identity, key-management, storage, monitoring, and incident-response design before real-world use.
+Agentic Trust Layer `1.0.2-alpha.beta` is a portfolio proof of concept. The public Trust Lab runs only locally generated fictional content. The reference REST API and MCP server are implementation examples that require a deployment-specific identity, key-management, storage, monitoring, and incident-response design before real-world use.
 
 ## Reporting a vulnerability
 

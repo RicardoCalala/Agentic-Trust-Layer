@@ -1,6 +1,6 @@
 # Agentic Trust Layer
 
-> Release: `1.0.1-alpha.beta` · Public demo: fictional data only · [Release notes](CHANGELOG.md) · [Security policy](SECURITY.md)
+> Release: `1.0.2-alpha.beta` · Public demo: fictional data only · [Release notes](CHANGELOG.md) · [Security policy](SECURITY.md)
 
 ![Agentic Trust Layer visual overview](assets/agentic-trust-layer-hero.png)
 
@@ -180,6 +180,19 @@ For the full enterprise use case, integration model, and control principles, rea
 - Pluggable identity-provider and central-log adapters.
 - SOC 2, ISO/IEC 27001, and GDPR readiness control matrices, threat models, and evidence collection plans.
 - MCP authorization and audit verification tools; approvals remain on the authenticated REST API rather than a shared-secret tool call.
+- Rust audit-chain verifier source for independently checking JSON evidence exports outside the Node.js runtime.
+
+### Independent evidence verification
+
+The optional Rust verifier lets an auditor or investigator independently check an exported JSON audit chain without running the Node.js service. It recomputes each canonical SHA-256 hash and verifies each link to its predecessor. It does not decrypt encrypted storage or replace formal evidence-retention procedures.
+
+```sh
+cd tools/audit-chain-verifier
+cargo test
+cargo run -- path/to/audit-events.json
+```
+
+See the [Rust audit-chain verifier guide](tools/audit-chain-verifier/README.md) for scope and prerequisites.
 
 ## Documentation map
 
@@ -188,6 +201,7 @@ For the full enterprise use case, integration model, and control principles, rea
 | Documentation index and release boundary | [docs/README.md](docs/README.md) |
 | Product architecture and adoption | [System architecture](docs/system-architecture.md) · [Integration blueprint](docs/integration-blueprint.md) |
 | API, identity, approvals, and audit storage | [Tenant REST API](docs/rest-api.md) · [MCP integration](docs/mcp-integration.md) |
+| Independent audit evidence verification | [Rust audit-chain verifier](tools/audit-chain-verifier/README.md) |
 | Security and readiness | [Security policy](SECURITY.md) · [Threat model](docs/threat-model.md) · [SOC 2 readiness matrix](docs/soc2-readiness-matrix.md) · [ISO 27001 and GDPR readiness](docs/iso27001-gdpr-readiness.md) |
 | Government and public sector | [Government Adoption Guide](docs/government-adoption-guide.md) · [National Agentic Trust Fabric](docs/national-trust-fabric.md) |
 | Forensics and use cases | [Forensics vision](docs/forensics-product-vision.md) · [Use cases](docs/README.md#use-cases-and-concepts) |

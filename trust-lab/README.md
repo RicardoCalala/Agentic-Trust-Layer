@@ -1,6 +1,6 @@
 # Trust Lab
 
-Trust Lab is the public visual companion to Agentic Trust Layer `1.0.1-alpha.beta`.
+Trust Lab is the public visual companion to Agentic Trust Layer `1.0.2-alpha.beta`.
 It demonstrates evidence-led agent governance using locally generated fictional data only.
 
 **Live demo:** [agentic-trust-lab.ricardocalala.chatgpt.site](https://agentic-trust-lab.ricardocalala.chatgpt.site)

@@ -37,8 +37,8 @@ export function createRestApi(options: RestApiOptions) {
       const principal = authenticate(request, options.identityProvider); if (!principal) return send(response, 401, { error: "Unauthenticated tenant request." });
       const method = request.method ?? "GET"; const path = new URL(request.url ?? "/", "http://localhost").pathname; const state = stateFor(principal.tenantId);
       if (method === "GET" && path === "/v1/health") return send(response, 200, { status: "ok", tenantId: principal.tenantId });
-      if (method === "GET" && path === "/v1/policies") return send(response, 200, { policies: state.policies });
-      if (method === "PUT" && path === "/v1/policies") { requireScope(principal, "policies:write"); const body = await json(request) as { policies?: PolicyRule[] }; validatePolicyRules(body.policies ?? []); state.policies = structuredClone(body.policies ?? []); state.layer = new TrustLayer(state.policies); return send(response, 200, { policies: state.policies }); }
+      if (method === "GET" && path === "/v1/policies") { requireScope(principal, "policies:read"); return send(response, 200, { policies: state.policies }); }
+      if (method === "PUT" && path === "/v1/policies") { requireScope(principal, "policies:write"); const body = await json(request) as { policies?: PolicyRule[] }; validatePolicyRules(body.policies ?? []); state.policies = structuredClone(body.policies ?? []); state.layer.replacePolicies(state.policies); return send(response, 200, { policies: state.policies }); }
       if (method === "POST" && path === "/v1/authorize") { requireScope(principal, "actions:authorize"); const result = state.layer.authorize(await json(request) as AgentRequest, randomUUID()); await persistLatest(state, principal, options, "authorization"); return send(response, 200, result); }
       if (method === "GET" && path === "/v1/approvals") { requireScope(principal, "approvals:read"); return send(response, 200, { approvals: state.layer.listApprovals("pending") }); }
       const approval = path.match(/^\/v1\/approvals\/([^/]+)$/);

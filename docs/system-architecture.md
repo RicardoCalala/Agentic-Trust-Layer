@@ -1,6 +1,6 @@
 # System Architecture: Where the Agentic Trust Layer Fits
 
-> Current for `1.0.1-alpha.beta` · The repository implements the policy/approval/audit library, a tenant-scoped REST API reference, and a local MCP authorization reference. The diagram describes the recommended enterprise deployment shape, not a claim that every surrounding service ships in this repository.
+> Current for `1.0.2-alpha.beta` · The repository implements the policy/approval/audit library, a tenant-scoped REST API reference, and a local MCP authorization reference. The diagram describes the recommended enterprise deployment shape, not a claim that every surrounding service ships in this repository.
 
 ## Placement
 

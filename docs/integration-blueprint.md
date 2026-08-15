@@ -1,6 +1,6 @@
 # Integration Blueprint
 
-> Current for `1.0.1-alpha.beta` · The included REST API, encrypted audit-store adapter, and local MCP reference provide a starting point. A production gateway, IdP integration, and downstream-tool forwarding are deployment work.
+> Current for `1.0.2-alpha.beta` · The included REST API, encrypted audit-store adapter, and local MCP reference provide a starting point. A production gateway, IdP integration, and downstream-tool forwarding are deployment work.
 
 1. Register an agent with enterprise workload identity.
 2. Connect approved MCP servers through the gateway.

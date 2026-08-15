@@ -8,7 +8,7 @@ import { validateAgentRequest } from "./types.js";
 export class TrustLayer {
   readonly approvals = new ApprovalGate();
   readonly audit = new AuditLog();
-  private readonly policy: PolicyEngine;
+  private policy: PolicyEngine;
 
   constructor(rules: PolicyRule[]) {
     this.policy = new PolicyEngine(rules);
@@ -54,6 +54,11 @@ export class TrustLayer {
 
   listApprovals(status?: ApprovalRequest["status"]): ApprovalRequest[] {
     return this.approvals.list(status);
+  }
+
+  /** Replaces the active policy without dropping approval or audit evidence. */
+  replacePolicies(rules: PolicyRule[]): void {
+    this.policy = new PolicyEngine(rules);
   }
 
   private assertAuditIntegrity(): void {

@@ -1,6 +1,6 @@
 # Tenant REST API
 
-> Current for `1.0.1-alpha.beta` · Functional alpha reference. It is separate from the public fictional Trust Lab and is not a hosted production service.
+> Current for `1.0.2-alpha.beta` · Functional alpha reference. It is separate from the public fictional Trust Lab and is not a hosted production service.
 
 The reference API wraps the trust layer in an authenticated, tenant-scoped HTTP service. It is deliberately separated from the public fictional demo: production deployments should run it behind an API gateway, workload identity, and a managed key service.
 
@@ -10,7 +10,8 @@ The reference API wraps the trust layer in an authenticated, tenant-scoped HTTP 
 | --- | --- | --- |
 | `GET /v1/health` | Authenticated tenant | Return the authenticated tenant and service status. |
 | `POST /v1/authorize` | `actions:authorize` | Evaluate an agent action; create a pending approval when policy requires it. |
-| `GET` / `PUT /v1/policies` | `policies:write` for updates | Read or replace a tenant policy set. |
+| `GET /v1/policies` | `policies:read` | Read the authenticated tenant’s policy set. |
+| `PUT /v1/policies` | `policies:write` | Replace the authenticated tenant’s policy set without dropping its in-memory approval or audit evidence. |
 | `GET /v1/approvals` | `approvals:read` | Approval inbox for the authenticated tenant. |
 | `POST /v1/approvals/:id` | `approvals:resolve` | Record the authenticated reviewer’s resolution. |
 | `GET /v1/audit/verify` | `audit:read` | Verify the current tenant audit chain. |
@@ -40,3 +41,7 @@ Implement `CentralLogSink` for the organization’s SIEM (for example, Splunk HE
 ## Dashboard integration
 
 The Trust Operations Console demonstrates the policy, approval, evidence, gateway, and reporting surfaces with locally generated synthetic data. It does not call these endpoints. A production dashboard should call the scoped endpoints above through a backend-for-frontend; it must never expose tenant bearer tokens or audit keys in browser code.
+
+## Policy continuity
+
+Replacing a policy set requires `policies:write` and preserves the tenant’s in-memory pending approvals and hash-linked audit chain. The next authorization uses the new policy set; earlier requests and approval evidence remain intact for review. Production systems should additionally version policy sets, retain the approval/change record, and persist both policy history and audit evidence in managed storage.

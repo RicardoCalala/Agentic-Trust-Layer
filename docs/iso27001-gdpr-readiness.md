@@ -1,6 +1,6 @@
 # ISO/IEC 27001 and GDPR Readiness Matrix
 
-> Current for `1.0.1-alpha.beta` · Readiness guidance, not certification or legal advice. An organization should obtain qualified security, privacy, and legal review for its own processing, jurisdictions, and implementation.
+> Current for `1.0.2-alpha.beta` · Readiness guidance, not certification or legal advice. An organization should obtain qualified security, privacy, and legal review for its own processing, jurisdictions, and implementation.
 
 Agentic Trust Layer provides a useful technical foundation for evidence-led AI governance, but neither this repository nor its public fictional Trust Lab is ISO/IEC 27001 certified or GDPR compliant by itself. ISO/IEC 27001:2022 requires an organization-wide information-security management system (ISMS), while GDPR duties depend on the organization’s role, processing, and jurisdiction.
 

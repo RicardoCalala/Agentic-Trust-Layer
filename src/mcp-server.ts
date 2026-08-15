@@ -32,7 +32,7 @@ const trustLayer = new TrustLayer([
   }
 ]);
 
-const server = new McpServer({ name: "agentic-trust-layer", version: "1.0.1-alpha.beta" });
+const server = new McpServer({ name: "agentic-trust-layer", version: "1.0.2-alpha.beta" });
 
 const response = (value: unknown) => ({
   content: [{ type: "text" as const, text: JSON.stringify(value, null, 2) }]
