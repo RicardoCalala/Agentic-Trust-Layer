@@ -79,10 +79,12 @@ Start the tenant-scoped REST API by supplying a development JWT secret and a bas
 ```sh
 export TRUST_LAYER_JWT_SECRET="replace-with-at-least-32-characters"
 export TRUST_LAYER_AUDIT_KEY_BASE64="$(openssl rand -base64 32)"
+export TRUST_LAYER_JWT_ISSUER="https://identity.example.local"
+export TRUST_LAYER_JWT_AUDIENCE="agentic-trust-layer-api"
 npm run api
 ```
 
-The API listens on `http://localhost:8787` by default. See the [MCP integration guide](docs/mcp-integration.md) and [tenant REST API guide](docs/rest-api.md) for the exact boundaries, routes, scopes, and production hardening requirements.
+The API listens on `http://localhost:8787` by default. The reference now requires short-lived JWTs with `exp`, `iss`, `aud`, tenant and subject claims, plus an `agent_id` or `agent_ids` claim binding the workload to approved agent identities. See the [MCP integration guide](docs/mcp-integration.md) and [tenant REST API guide](docs/rest-api.md) for the exact boundaries, routes, scopes, resource registry, and production hardening requirements.
 
 Read the [governed customer-support agent use case](docs/use-case-customer-support.md) for a business-facing example of how a company could adopt the layer.
 

@@ -27,7 +27,7 @@ export interface Decision {
   matchedRuleId?: string;
 }
 
-export type AuditEventKind = "authorization" | "approval_resolution";
+export type AuditEventKind = "authorization" | "approval_resolution" | "approval_invalidation";
 
 export interface AuditEvent {
   id: string;

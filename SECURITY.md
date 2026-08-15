@@ -12,6 +12,8 @@ Please do not publish sensitive vulnerability details in a public issue. Contact
 
 - Default-deny policy decisions with explicit approval boundaries.
 - Tenant-scoped REST API state after authenticated token validation.
+- Workload-to-agent binding and server-owned resource classification for REST authorization.
+- Self-approval prevention and policy-change invalidation of pending approvals.
 - Hash-linked, encrypted audit-store reference adapter.
 - Constant-time comparison for HMAC authentication checks.
 - Size-limited JSON request parsing and defensive response headers.
@@ -22,6 +24,7 @@ Please do not publish sensitive vulnerability details in a public issue. Contact
 - Store encryption keys in a managed KMS or HSM; never use local development keys for production.
 - Put the API behind TLS termination, rate limiting, structured monitoring, alerting, backups, and tested recovery procedures.
 - Keep approval resolution on the authenticated REST API until the MCP transport has authenticated, attributable reviewer identity.
+- Require short-lived tokens and bind agent identities and resource classifications to trusted server-side identity/catalog sources.
 - Complete the SOC 2, ISO/IEC 27001, and GDPR readiness evidence plans, independent security/privacy review, and operational controls before processing sensitive data.
 
 See the [ISO/IEC 27001 and GDPR readiness matrix](docs/iso27001-gdpr-readiness.md) for control mapping, the repository-scoped threat model, and the evidence collection plan.

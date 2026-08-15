@@ -4,16 +4,19 @@ export interface ApprovalRequest {
   id: string;
   request: AgentRequest;
   decision: Decision;
-  status: "pending" | "approved" | "rejected";
+  status: "pending" | "approved" | "rejected" | "invalidated";
   createdAt: string;
+  requestedBy?: string;
   resolvedBy?: string;
   resolvedAt?: string;
+  invalidatedBy?: string;
+  invalidatedAt?: string;
 }
 
 export class ApprovalGate {
   private readonly requests = new Map<string, ApprovalRequest>();
 
-  create(id: string, request: AgentRequest, decision: Decision): ApprovalRequest {
+  create(id: string, request: AgentRequest, decision: Decision, requestedBy?: string): ApprovalRequest {
     if (!isNonEmptyString(id) || id.length > 128) {
       throw new Error("Approval id must be a non-empty string up to 128 characters.");
     }
@@ -27,6 +30,7 @@ export class ApprovalGate {
       decision: Object.freeze(structuredClone(decision)),
       status: "pending",
       createdAt: new Date().toISOString(),
+      ...(requestedBy ? { requestedBy } : {}),
     });
     this.requests.set(id, approval);
     return structuredClone(approval);
@@ -40,6 +44,7 @@ export class ApprovalGate {
     const existing = this.requests.get(id);
     if (!existing) throw new Error(`Unknown approval request: ${id}`);
     if (existing.status !== "pending") throw new Error(`Approval request ${id} is already resolved.`);
+    if (existing.requestedBy === reviewer.trim()) throw new Error("Requester cannot approve their own request.");
 
     const resolved: ApprovalRequest = Object.freeze({
       ...existing,
@@ -51,6 +56,19 @@ export class ApprovalGate {
     });
     this.requests.set(id, resolved);
     return structuredClone(resolved);
+  }
+
+  invalidatePending(actor: string): ApprovalRequest[] {
+    if (!isNonEmptyString(actor) || actor.length > 128) throw new Error("Policy administrator identity is required.");
+    const now = new Date().toISOString();
+    const invalidated = this.list("pending").map((existing) => Object.freeze({
+      ...existing,
+      status: "invalidated" as const,
+      invalidatedBy: actor.trim(),
+      invalidatedAt: now,
+    }) as ApprovalRequest);
+    for (const approval of invalidated) this.requests.set(approval.id, approval);
+    return invalidated.map((approval) => structuredClone(approval));
   }
 
   get(id: string): ApprovalRequest | undefined {

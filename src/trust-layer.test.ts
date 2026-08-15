@@ -54,6 +54,13 @@ test("holds consequential actions for approval, audits resolution, and preserves
   assert.equal(layer.audit.verify(), true);
 });
 
+test("prevents a requester from approving their own request", () => {
+  const layer = new TrustLayer(rules);
+  layer.authorize({ agentId: "support-agent", action: "send", resource: "customer-email", dataClassification: "confidential" }, "approval-self", "requester");
+  assert.throws(() => layer.resolveApproval("approval-self", true, "requester"), /cannot approve their own request/);
+  assert.equal(layer.listApprovals("pending").length, 1);
+});
+
 test("refuses to overwrite an existing approval id", () => {
   const layer = new TrustLayer(rules);
   layer.authorize({ agentId: "support-agent", action: "send", resource: "customer-email", dataClassification: "confidential" }, "approval-1");
@@ -63,7 +70,7 @@ test("refuses to overwrite an existing approval id", () => {
   );
 });
 
-test("retains approval and audit evidence when policies are replaced", () => {
+test("preserves evidence but invalidates pending approvals when policies are replaced", () => {
   const trustLayer = new TrustLayer([rules[2]]);
   const sensitiveRequest = { agentId: "support-agent", action: "send", resource: "customer-email", dataClassification: "confidential" as const };
   const approval = trustLayer.authorize(sensitiveRequest, "approval-keep");
@@ -72,9 +79,12 @@ test("retains approval and audit evidence when policies are replaced", () => {
 
   trustLayer.replacePolicies([{ ...rules[2], effect: "deny", reason: "New policy blocks this action." }]);
 
-  assert.equal(trustLayer.listApprovals("pending").length, 1);
-  assert.equal(trustLayer.audit.all().length, initialEvents);
+  assert.equal(trustLayer.listApprovals("pending").length, 0);
+  assert.equal(trustLayer.listApprovals("invalidated").length, 1);
+  assert.equal(trustLayer.audit.all().length, initialEvents + 1);
+  assert.equal(trustLayer.audit.all().at(-1)?.kind, "approval_invalidation");
   assert.equal(trustLayer.audit.verify(), true);
+  assert.throws(() => trustLayer.resolveApproval("approval-keep", true, "security-reviewer"), /already resolved/);
   const decision = trustLayer.authorize(sensitiveRequest);
   assert.equal("effect" in decision && decision.effect, "deny");
 });

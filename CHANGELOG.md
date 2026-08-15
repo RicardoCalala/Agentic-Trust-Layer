@@ -6,6 +6,11 @@
 - Added a `policies:read` scope requirement to the tenant policy-read endpoint.
 - Added Rust source for an independent JSON audit-chain verifier, with canonical-hash and tamper-detection tests.
 - Refreshed release metadata across the library, Trust Lab, security documentation, and implementation guides.
+- Bound REST authorization to verified workload agent claims and server-owned resource classifications.
+- Prevented requester self-approval and invalidated pending approvals after policy changes while retaining audit evidence.
+- Backfilled unwritten audit events before handling the next request after a transient persistence failure.
+- Required token expiry in the reference HMAC identity provider; the production entrypoint now requires issuer and audience configuration.
+- Hardened the Rust verifier with trusted terminal-hash anchoring, empty-export rejection, and bounded input/event sizes.
 
 ## Documentation refresh — 2026-08-14
 

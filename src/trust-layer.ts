@@ -14,7 +14,7 @@ export class TrustLayer {
     this.policy = new PolicyEngine(rules);
   }
 
-  authorize(request: AgentRequest, approvalId: string = randomUUID()): Decision | ApprovalRequest {
+  authorize(request: AgentRequest, approvalId: string = randomUUID(), requestedBy?: string): Decision | ApprovalRequest {
     this.assertAuditIntegrity();
 
     const validationError = validateAgentRequest(request);
@@ -28,7 +28,7 @@ export class TrustLayer {
     this.audit.append(request, decision);
 
     if (decision.effect !== "require_approval") return decision;
-    return this.approvals.create(approvalId, request, decision);
+    return this.approvals.create(approvalId, request, decision, requestedBy);
   }
 
   resolveApproval(id: string, approved: boolean, reviewer: string): ApprovalRequest {
@@ -56,9 +56,16 @@ export class TrustLayer {
     return this.approvals.list(status);
   }
 
-  /** Replaces the active policy without dropping approval or audit evidence. */
-  replacePolicies(rules: PolicyRule[]): void {
+  /** Replaces policy while preserving evidence and invalidating stale pending approvals. */
+  replacePolicies(rules: PolicyRule[], actor = "policy-administrator"): void {
     this.policy = new PolicyEngine(rules);
+    for (const approval of this.approvals.invalidatePending(actor)) {
+      this.audit.append(
+        approval.request,
+        { effect: "deny", reason: "Pending approval invalidated because the governing policy changed.", matchedRuleId: approval.decision.matchedRuleId },
+        { kind: "approval_invalidation", approvalId: approval.id, resolvedBy: actor },
+      );
+    }
   }
 
   private assertAuditIntegrity(): void {
