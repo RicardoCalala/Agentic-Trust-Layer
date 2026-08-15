@@ -6,6 +6,7 @@
 - Corrected the MCP guide to reflect the current two-tool server; approval resolution remains tenant-authenticated on the REST API.
 - Added current local-run instructions, API scope coverage, product boundaries, and a documentation map.
 - Added ISO/IEC 27001 and GDPR readiness control mapping, repository-scoped threat model, and evidence-collection plan.
+- Added a government-friendly adoption guide covering accountability, privacy, security, procurement, pilots, and phased rollout.
 
 ## 1.0.1-alpha.beta — 2026-08-14
 

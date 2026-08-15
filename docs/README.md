@@ -13,6 +13,7 @@ This repository is an alpha reference implementation and a public fictional demo
 | Integrate the tenant API | [Tenant REST API](rest-api.md) |
 | Integrate MCP safely | [MCP integration guide](mcp-integration.md) |
 | Plan security, privacy, and audit readiness | [Threat model](threat-model.md) · [SOC 2 readiness matrix](soc2-readiness-matrix.md) · [ISO 27001 and GDPR readiness matrix](iso27001-gdpr-readiness.md) |
+| Plan a government or public-sector pilot | [Government Adoption Guide](government-adoption-guide.md) · [National Agentic Trust Fabric](national-trust-fabric.md) |
 | Understand the evidence-led design | [Trust model](trust-model.md) · [Forensics product vision](forensics-product-vision.md) |
 
 ## Use cases and concepts
@@ -24,6 +25,7 @@ This repository is an alpha reference implementation and a public fictional demo
 - [Area-level financial-risk intelligence](area-level-risk-intelligence.md)
 - [Zero-trust collaboration across organizations](use-case-cross-organization.md)
 - [National Agentic Trust Fabric](national-trust-fabric.md)
+- [Government Adoption Guide](government-adoption-guide.md)
 
 ## Product and implementation guides
 

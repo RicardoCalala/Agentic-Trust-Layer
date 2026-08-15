@@ -33,6 +33,21 @@ It is a portfolio concept and alpha proof of concept—not a certified security 
 
 The product vision centers on [agent activity forensics](docs/forensics-product-vision.md): trustworthy timelines, evidence integrity, and investigation-ready records for AI agents. Read the [National Agentic Trust Fabric](docs/national-trust-fabric.md) for a country-wide public-sector architecture that preserves agency authority and accountability.
 
+## Government and public-sector use
+
+For public institutions, Agentic Trust Layer is a governance boundary—not a decision maker. It can help agencies make AI-assisted work auditable, policy-governed, and accountable while preserving each agency’s authority over its own people, records, and services.
+
+It is designed around six public-sector principles:
+
+1. **Lawful purpose:** every tool use or data request needs a defined mandate and operational purpose.
+2. **Human accountability:** an AI agent may assist, but an authorized person retains consequential authority.
+3. **Minimum necessary access:** policies constrain the agent, tool, action, data class, tenant, and scope.
+4. **Evidence before action:** the system records policy, source references, uncertainty, approval, and outcome rather than treating an AI statement as proof.
+5. **Agency autonomy:** a shared trust fabric can support interoperability without centralizing every agency’s records or forcing one agency to trust another’s AI output.
+6. **Public confidence:** clear limits, privacy safeguards, independent oversight, and challenge/correction pathways matter as much as technical controls.
+
+Start with the [Government Adoption Guide](docs/government-adoption-guide.md) for a clear operating model, roles, guardrails, pilot candidates, procurement questions, and phased rollout. The [National Agentic Trust Fabric](docs/national-trust-fabric.md) shows how this model could scale across public institutions without creating a single national decision engine.
+
 ## Current capabilities
 
 - **Policy-as-code:** default-deny authorization over agents, tools, resources, and data classifications.
@@ -88,6 +103,8 @@ Read the [digital forensics use case](docs/use-case-digital-forensics.md) for ho
 Read the [lone-investigator fraud console prototype](docs/prototype-fraud-investigator-console.md) for the proposed single-user forensic workflow.
 
 Read the [area-level financial-risk intelligence concept](docs/area-level-risk-intelligence.md) for the privacy-preserving, aggregate-first lead-verification direction.
+
+For government and public-sector audiences, read the [Government Adoption Guide](docs/government-adoption-guide.md) for public value, human-accountability, privacy, security, procurement, and phased-adoption guidance.
 
 ## Example
 
@@ -155,4 +172,5 @@ For the full enterprise use case, integration model, and control principles, rea
 | Product architecture and adoption | [System architecture](docs/system-architecture.md) · [Integration blueprint](docs/integration-blueprint.md) |
 | API, identity, approvals, and audit storage | [Tenant REST API](docs/rest-api.md) · [MCP integration](docs/mcp-integration.md) |
 | Security and readiness | [Security policy](SECURITY.md) · [Threat model](docs/threat-model.md) · [SOC 2 readiness matrix](docs/soc2-readiness-matrix.md) · [ISO 27001 and GDPR readiness](docs/iso27001-gdpr-readiness.md) |
+| Government and public sector | [Government Adoption Guide](docs/government-adoption-guide.md) · [National Agentic Trust Fabric](docs/national-trust-fabric.md) |
 | Forensics and use cases | [Forensics vision](docs/forensics-product-vision.md) · [Use cases](docs/README.md#use-cases-and-concepts) |
