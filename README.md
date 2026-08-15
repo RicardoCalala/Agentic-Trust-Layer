@@ -146,6 +146,23 @@ To reach an audit-ready implementation, add identity-provider integration, encry
 
 See the [security policy](SECURITY.md), [threat model](docs/threat-model.md), [SOC 2 readiness matrix](docs/soc2-readiness-matrix.md), and [release notes](CHANGELOG.md) for the current alpha boundary and enterprise readiness path.
 
+## ISO/IEC 27001 and GDPR readiness roadmap
+
+ISO/IEC 27001 certification and GDPR compliance apply to an operating organization, its people, vendors, systems, and real data processing—not to this repository alone. This alpha provides useful controls and documentation, but it is not certified or compliant by itself. The public Trust Lab processes fictional browser-generated data only.
+
+| Phase | ISO/IEC 27001 readiness | GDPR readiness | Evidence of completion |
+| --- | --- | --- | --- |
+| 1. Establish governance | Define ISMS scope, asset owners, risk method, control owners, and management review | Identify controller/processor roles, processing purposes, and responsible privacy/legal contacts | Approved scope, asset inventory, risk register, governance charter |
+| 2. Map data and authority | Classify data, document data flows, define tool and supplier boundaries | Record lawful basis, data categories, retention, sharing, and cross-border considerations | Data-flow diagrams, records of processing, source/tool registry, retention schedule |
+| 3. Build secure foundations | Integrate managed identity, RBAC/ABAC, KMS/HSM, encrypted storage, central logging, backups, and recovery | Apply privacy by design/default, minimization, purpose limitation, transparency, and rights-request workflows | Architecture review, access reviews, key inventory, test records, privacy review |
+| 4. Govern agent actions | Enforce default-deny policy, reviewer separation of duties, approvals, tool allowlists, and integrity-protected evidence | Define human-oversight rules, DPIA/impact-assessment triggers, correction/escalation paths, and data-subject safeguards | Policy register, approval receipts, audit-integrity checks, workflow tests, impact assessments |
+| 5. Operate and assure | Run vulnerability management, monitoring, incident response, supplier assurance, internal audits, and management review | Test breach assessment/notification process where applicable; monitor retention, rights requests, and processor obligations | Incident tabletop results, SIEM alerts, audit reports, supplier reviews, training records |
+| 6. Independent review | Engage qualified auditors for readiness assessment and certification scope | Engage qualified privacy and legal review for jurisdiction-specific obligations | Audit findings, remediation plan, legal/privacy assessment, executive sign-off |
+
+The repository’s reference components contribute to the roadmap through tenant-scoped API claims, policy evaluation, approval evidence, encrypted append-only audit storage, hash-chain integrity checks, and central-log adapters. Production teams must still implement the operating controls, evidence retention, staff training, procurement, and independent review.
+
+For the detailed control matrix, repository threat model, evidence collection plan, and implementation priorities, see the [ISO/IEC 27001 and GDPR readiness matrix](docs/iso27001-gdpr-readiness.md).
+
 ## Architecture
 
 1. An agent proposes a tool use or data access request.
